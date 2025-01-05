@@ -9,5 +9,9 @@ const firebaseConfig = {
     appId: "1:844930871229:web:0d2f1d2a95e64f812becd4",
   };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+// Initialize Firebase only once
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);  // Make sure firebase is initialized
+} else {
+  firebase.app(); // If already initialized, use the existing app
+}
