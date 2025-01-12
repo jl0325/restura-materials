@@ -3,13 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Materials</title>
+    <title>Admin Materials - Restaura Materials</title>
     <link rel="stylesheet" href="css/styles.css">
-    <script defer src="js/admin.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/auth.js"></script>
+    <script defer src="js/navbar.js"></script>
+    <script defer src="js/materials-admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootsrap-table@1.0.0/dist/bs-table-filter.min.js"></script> <!-- Include Bootstrap table filter -->
 </head>
 <body>
-    <main>
-        <h1>Admin - Materials Management</h1>
+    <header>
+        <nav>
+            <ul id="navbar">
+                <li><a href="index.html">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mt-4">
+        <section>
+            <h1>Materials Admin - Restaura Materials</h1>
+            <div class="mb-4">
+                <h3>Create Material</h3>
+                <form id="create-material-form">
+                    <div class="mb-3">
+                        <label for="material-name" class="form-label">Name</label>
+                        <input type="text" id="material-name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="material-unit" class="form-label">Unit</label>
+                        <input type="text" id="material-unit" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="material-price" class="form-label">Price</label>
+                        <input type="number" id="material-price" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="material-type" class="form-label">Type</label>
+                        <select id="material-type" class="form-select" required>
+                            <option value="1">Sand Paper</option>
+                            <option value="2">Base coat paint or mixed colors</option>
+                            <option value="3">Spray Cans</option>
+                            <option value="4">Fillers</option>
+                            <option value="5">Chemicals</option>
+                            <option value="6">Masking</option>
+                            <option value="7">Stuff Amenities</option>
+                            <option value="8">Others</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Material</button>
+                </form>
+            </div>
+
+            <!-- Add Table Filters -->
+            <div class="mb-3">
+                <label for="filter" class="form-label">Search Materials:</label>
+                <input type="text" id="filter" class="form-control" placeholder="Filter by Name, Unit, Price, Type">
+            </div>
+
+            <div class="table-responsive mt-4">
+                <h3>Materials List</h3>
+                <table class="table table-bordered table-striped" id="materials-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Unit</th>
+                            <th>Price</th>
+                            <th>Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Material rows will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </main>
+
+    <footer class="text-center mt-4">
+        <p>&copy; 2025 Restaura Materials. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Table Filtering -->
+    <script>
+        const filterInput = document.getElementById('filter');
+        filterInput.addEventListener('keyup', function() {
+            const filterText = filterInput.value.toLowerCase();
+            const rows = document.querySelectorAll('#materials-table tbody tr');
+            rows.forEach(row => {
+                const cells = row.getElementsByTagName('td');
+                let match = false;
+                for (let i = 0; i < cells.length - 1; i++) {
+                    if (cells[i].textContent.toLowerCase().includes(filterText)) {
+                        match = true;
+                        break;
+                    }
+                }
+                if (match) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
