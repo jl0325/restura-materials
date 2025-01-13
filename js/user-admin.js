@@ -16,6 +16,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <td>${userData.email}</td>
                     <td>${userData.phone}</td>
                     <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="admin-toggle-${userId}" ${userData.admin ? 'checked' : ''} 
+                                   onchange="toggleAdmin('${userId}', this.checked)">
+                        </div>
+                    </td>
+                    <td>
                         <button class="btn btn-primary btn-sm" onclick="editUser('${userId}')">Edit</button>
                         <button class="btn btn-danger btn-sm" onclick="deleteUser('${userId}')">Delete</button>
                     </td>
@@ -36,7 +42,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Edit an existing user
     window.editUser = async function (userId) {
         const name = prompt('Enter new name:');
-        const email = prompt('Enter new email:');
         const phone = prompt('Enter new phone:');
 
         if (name && email && phone) {
@@ -54,6 +59,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             await database.ref(`users/${userId}`).remove();
             alert('User deleted successfully!');
             fetchUsers();
+        }
+    };
+
+    // Toggle admin status
+    window.toggleAdmin = async function (userId, isAdmin) {
+        try {
+            await database.ref(`users/${userId}`).update({ admin: isAdmin ? 1 : 0 });
+            alert(`User admin status updated to ${isAdmin ? 'Admin' : 'Non-Admin'}`);
+        } catch (error) {
+            console.error('Error updating admin status:', error);
+            alert('Failed to update admin status. Please try again.');
         }
     };
 
