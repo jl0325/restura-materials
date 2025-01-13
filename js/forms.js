@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         materialTypeSelect.appendChild(option);
     });
 
-     // Fetch materials by type from Firebase when the type dropdown changes
-     materialTypeSelect.addEventListener('change', async () => {
+    // Fetch materials by type from Firebase when the type dropdown changes
+    materialTypeSelect.addEventListener('change', async () => {
         const selectedType = materialTypeSelect.value;
 
         // Clear existing options in the material name dropdown
@@ -60,30 +60,55 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Add material to the list
-    addMaterialButton.addEventListener('click', () => {
+    addMaterialButton.addEventListener('click', async () => {
+        const materialId = materialNameSelect.value;
         const materialType = materialTypes[materialTypeSelect.value];
         const materialName = materialNameSelect.options[materialNameSelect.selectedIndex]?.text || '';
-        const quantity = parseInt(document.getElementById('quantity').value);
+        const quantity = parseFloat(document.getElementById('quantity').value); // Parse quantity as float
 
-        if (!materialType || !materialName || !quantity) {
+        if (!materialType || !materialName || isNaN(quantity) || !materialId) {
             alert('All fields are required to add a material.');
             return;
         }
 
-        materialsArray.push({ materialType, materialName, quantity });
+        try {
+            // Fetch the material price from Firebase
+            const materialSnapshot = await database.ref('materials').child(materialId).once('value');
+            const materialData = materialSnapshot.val();
 
-        const listItem = document.createElement('li');
-        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-        listItem.textContent = `${materialName} (${materialType}) - Quantity: ${quantity}`;
-        const removeButton = document.createElement('button');
-        removeButton.className = 'btn btn-danger btn-sm';
-        removeButton.textContent = 'Remove';
-        removeButton.addEventListener('click', () => {
-            materialsArray = materialsArray.filter((m) => m.materialName !== materialName || m.quantity !== quantity);
-            listItem.remove();
-        });
-        listItem.appendChild(removeButton);
-        materialsList.appendChild(listItem);
+            if (materialData) {
+                const totalPrice = materialData.price * quantity; // Calculate total price
+
+                // Add material to the list with total price
+                materialsArray.push({
+                    materialType,
+                    materialName,
+                    quantity,
+                    price: materialData.price,
+                    totalPrice
+                });
+
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                listItem.textContent = `${materialName} (${materialType}) - Quantity: ${quantity.toFixed(2)}`;
+                
+                // Remove button for the material
+                const removeButton = document.createElement('button');
+                removeButton.className = 'btn btn-danger btn-sm';
+                removeButton.textContent = 'Remove';
+                removeButton.addEventListener('click', () => {
+                    materialsArray = materialsArray.filter((m) => m.materialName !== materialName || m.quantity !== quantity);
+                    listItem.remove();
+                });
+                listItem.appendChild(removeButton);
+                materialsList.appendChild(listItem);
+            } else {
+                alert('Material not found.');
+            }
+        } catch (error) {
+            console.error('Error fetching material price:', error);
+            alert('Unable to fetch material price. Please try again later.');
+        }
     });
 
     // Save form data and materials list to Firebase
