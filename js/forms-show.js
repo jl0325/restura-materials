@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.appendChild(projectCell);
 
                 const userNameCell = document.createElement('td');
-                userNameCell.textContent = project.userName;
+                projectCell.textContent = project.userName;
                 row.appendChild(userNameCell);
 
                 // Create actions cell
