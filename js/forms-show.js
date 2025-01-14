@@ -1,5 +1,3 @@
-// forms-show.js
-
 // Wait for the DOM content to load
 document.addEventListener('DOMContentLoaded', () => {
     const database = firebase.database();
@@ -8,8 +6,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     const currentUser = getCurrentUser();
 
-    // Fetch projects data and render the table
-    projectsRef.on('value', (snapshot) => {
+    // Check if the user is logged in and is an admin
+    if (!currentUser) {
+        alert('You need to log in first.');
+        window.location.href = 'login.html'; // Redirect to login page if no user is logged in
+        return;
+    }
+
+    // Fetch and display project materials based on user role
+    if (currentUser.admin === 1) {
+        // Admin: Show all projects
+        projectsRef.on('value', (snapshot) => {
+            displayProjects(snapshot);
+        });
+    } else {
+        // Non-admin: Show only projects where userName matches current user's name
+        projectsRef.orderByChild('userName').equalTo(currentUser.name).on('value', (snapshot) => {
+            displayProjects(snapshot);
+        });
+    }
+
+    // Filter table based on search input
+    searchInput.addEventListener('input', () => {
+        const filter = searchInput.value.toLowerCase();
+        Array.from(projectsTableBody.rows).forEach((row) => {
+            const cells = row.getElementsByTagName('td');
+            const matches = Array.from(cells).some((cell) =>
+                cell.textContent.toLowerCase().includes(filter)
+            );
+            row.style.display = matches ? '' : 'none';
+        });
+    });
+
+    // Function to render the project data into the table
+    function displayProjects(snapshot) {
         projectsTableBody.innerHTML = ''; // Clear existing rows
 
         const projects = snapshot.val();
@@ -36,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.appendChild(projectCell);
 
                 const userNameCell = document.createElement('td');
-                projectCell.textContent = project.userName;
+                userNameCell.textContent = project.userName;
                 row.appendChild(userNameCell);
 
                 // Create actions cell
@@ -53,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 actionsCell.appendChild(viewIcon);
 
-                // Delete icon
                 const deleteIcon = document.createElement('i');
                 deleteIcon.className = 'bi bi-trash-fill text-danger mx-1';
                 deleteIcon.style.cursor = 'pointer';
@@ -69,24 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const row = document.createElement('tr');
             const cell = document.createElement('td');
-            cell.colSpan = 5;
+            cell.colSpan = 6;
             cell.textContent = 'No projects available';
             row.appendChild(cell);
             projectsTableBody.appendChild(row);
         }
-    });
-
-    // Filter table based on search input
-    searchInput.addEventListener('input', () => {
-        const filter = searchInput.value.toLowerCase();
-        Array.from(projectsTableBody.rows).forEach((row) => {
-            const cells = row.getElementsByTagName('td');
-            const matches = Array.from(cells).some((cell) =>
-                cell.textContent.toLowerCase().includes(filter)
-            );
-            row.style.display = matches ? '' : 'none';
-        });
-    });
+    }
 
     // Function to navigate to the edit or view page
     function navigateToEditPage(action, projectId) {
