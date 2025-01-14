@@ -28,22 +28,23 @@
 
     <main class="container mt-4">
         <section>
+            <!-- Form Section -->
             <div class="mb-4">
-                <h3>Create Material</h3>
-                <form id="create-material-form">
-                    <div class="mb-3">
+                <h2>Create Material</h2>
+                <form id="create-material-form" class="row g-3">
+                    <div class="col-md-6">
                         <label for="material-name" class="form-label">Name</label>
                         <input type="text" id="material-name" class="form-control" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="col-md-6">
                         <label for="material-unit" class="form-label">Unit</label>
                         <input type="text" id="material-unit" class="form-control" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="col-md-6">
                         <label for="material-price" class="form-label">Price</label>
                         <input type="number" id="material-price" class="form-control" step="0.01" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="col-md-6">
                         <label for="material-type" class="form-label">Type</label>
                         <select id="material-type" class="form-select" required>
                             <option value="1">Sand Paper</option>
@@ -56,16 +57,19 @@
                             <option value="8">Others</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Material</button>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary w-100">Add Material</button>
+                    </div>
                 </form>
             </div>
 
-            <!-- Add Table Filters -->
+            <!-- Table Filter Section -->
             <div class="mb-3">
                 <label for="filter" class="form-label">Search Materials:</label>
                 <input type="text" id="filter" class="form-control" placeholder="Filter by Name, Unit, Price, Type">
             </div>
 
+            <!-- Materials Table Section -->
             <div class="table-responsive mt-4">
                 <h3>Materials List</h3>
                 <table class="table table-bordered table-striped" id="materials-table">
