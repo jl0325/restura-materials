@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 viewIcon.style.cursor = 'pointer';
                 viewIcon.title = 'View';
                 viewIcon.addEventListener('click', () => {
-                    navigateToEditPage('View', key);
+                    navigateToDetailPage(key); // Fixed to call navigateToDetailPage
                 });
                 actionsCell.appendChild(viewIcon);
 
@@ -105,9 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to navigate to the edit or view page
-    function navigateToEditPage(action, projectId) {
-        const url = `edit-forms.html?title=${action}&id=${projectId}`;
+    // Function to navigate to the detail page (for View or Edit)
+    function navigateToDetailPage(projectId) {
+        const url = `form-detail.html?&projectId=${projectId}`; // URL updated to use correct parameter names
         window.location.href = url;
     }
 
