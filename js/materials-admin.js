@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <td>$${parseFloat(materialData.price).toFixed(2)}</td>
                     <td>${materialTypes[materialData.type]}</td>
                     <td>
-                        <button class="btn btn-primary btn-sm" onclick="editMaterial('${materialId}')">Edit</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteMaterial('${materialId}')">Delete</button>
+                        <button class="btn btn-primary btn-sm" onclick="editMaterial('${materialId}')"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteMaterial('${materialId}')"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 `;
                 materialsTableBody.appendChild(row);

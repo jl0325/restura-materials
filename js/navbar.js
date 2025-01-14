@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userData.admin === 1) {
             // Add admin-specific links to the navbar
             const adminLinks = `
-                <li><a href="admin-user.html">Users</a></li>
-                <li><a href="admin-materials.html">Materials</a></li>
-                <li id="logout-link"><a href="logout.html">Logout</a></li>
+                <li class="nav-item"><a href="admin-user.html"class=" nav-link">Users</a></li>
+                <li class="nav-item"><a href="admin-materials.html" class="nav-link">Materials</a></li>
+                <li class="nav-item" id="logout-link"><a href="logout.html" class="nav-link">Logout</a></li>
             `;
             navbar.insertAdjacentHTML('beforeend', adminLinks);
         }

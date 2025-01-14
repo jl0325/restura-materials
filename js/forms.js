@@ -125,12 +125,20 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Get the current user's data from localStorage
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+            alert('User not logged in.');
+            return;
+        }
+
         const newEntry = {
             company,
             date,
             project,
             client,
-            materials: materialsArray
+            materials: materialsArray,
+            userName: currentUser.name // Save user name
         };
 
         try {
