@@ -15,15 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch and display project materials based on user role
     if (currentUser.admin === 1) {
-        // Admin: Show all projects
-        projectsRef.on('value', (snapshot) => {
-            displayProjects(snapshot);
+        // Admin: Show all projects ordered by date (newest to oldest)
+        projectsRef.orderByChild('date').on('value', (snapshot) => {
+            displayProjects(snapshot, true); // Pass `true` to reverse order
         });
     } else {
-        // Non-admin: Show only projects where userName matches current user's name
-        projectsRef.orderByChild('userName').equalTo(currentUser.name).on('value', (snapshot) => {
-            displayProjects(snapshot);
-        });
+        // Non-admin: Show only projects where userName matches current user's name, ordered by date
+        projectsRef
+            .orderByChild('userName')
+            .equalTo(currentUser.name)
+            .on('value', (snapshot) => {
+                displayProjects(snapshot, true); // Pass `true` to reverse order
+            });
     }
 
     // Filter table based on search input
@@ -39,13 +42,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Function to render the project data into the table
-    function displayProjects(snapshot) {
+    function displayProjects(snapshot, reverse = false) {
         projectsTableBody.innerHTML = ''; // Clear existing rows
 
         const projects = snapshot.val();
 
         if (projects) {
-            Object.entries(projects).forEach(([key, project]) => {
+            // Convert object to array and sort by date
+            const sortedProjects = Object.entries(projects)
+                .sort(([ , a], [ , b]) => new Date(a.date) - new Date(b.date));
+
+            // Reverse the sorted array if reverse is true
+            if (reverse) {
+                sortedProjects.reverse();
+            }
+
+            sortedProjects.forEach(([key, project]) => {
                 const row = document.createElement('tr');
 
                 // Create cells for each field
@@ -79,10 +91,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 viewIcon.style.cursor = 'pointer';
                 viewIcon.title = 'View';
                 viewIcon.addEventListener('click', () => {
-                    navigateToDetailPage(key); // Fixed to call navigateToDetailPage
+                    navigateToDetailPage(key);
                 });
                 actionsCell.appendChild(viewIcon);
 
+                // Delete icon
                 const deleteIcon = document.createElement('i');
                 deleteIcon.className = 'bi bi-trash-fill text-danger mx-1';
                 deleteIcon.style.cursor = 'pointer';
@@ -107,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to navigate to the detail page (for View or Edit)
     function navigateToDetailPage(projectId) {
-        const url = `form-detail.html?&projectId=${projectId}`; // URL updated to use correct parameter names
+        const url = `form-detail.html?&projectId=${projectId}`;
         window.location.href = url;
     }
 

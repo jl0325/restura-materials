@@ -4,9 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (currentUser) {
         const userData = JSON.parse(currentUser);
-
-        // Check if the user is an admin
-        console.log(currentUser)
         if (userData.admin === 1) {
             // Add admin-specific links to the navbar
             const adminLinks = `
