@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Get the projectId from the URL query string
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get('projectId');
-    console.log(projectId);
 
     if (!projectId) {
         alert('Project ID is required!');
@@ -16,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Fetch the project details from Firebase
         const snapshot = await database.ref('projectMaterials').child(projectId).once('value');
         const projectData = snapshot.val();
-        console.log(projectData.materials);
         
         if (projectData) {
             // Populate project details
@@ -25,33 +23,57 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('date').textContent = projectData.date;
             document.getElementById('project').textContent = projectData.project;
             document.getElementById('userName').textContent = projectData.userName;
+            console.log(projectData);
 
             // Populate materials table
             const materialsTableBody = document.getElementById('materials-list');
+            let totalSum = 0; // Initialize total sum
+
             projectData.materials.forEach((material) => {
+                console.log(material);
+                // Extract name and unit from materialName
+                const materialNameMatch = material.materialName.match(/^(.*?)\s*\((.*?)\)$/);
+                const name = materialNameMatch ? materialNameMatch[1].trim() : material.materialName;
+                const unit = materialNameMatch ? materialNameMatch[2].trim() : 'N/A';
+
                 // Create a new table row
                 const row = document.createElement('tr');
 
                 // Create table cells for each material property
-                const materialNameCell = document.createElement('td');
-                materialNameCell.textContent = material.materialName;
-                row.appendChild(materialNameCell);
+                const nameCell = document.createElement('td');
+                nameCell.textContent = name;
+                row.appendChild(nameCell);
 
-                const materialTypeCell = document.createElement('td');
-                materialTypeCell.textContent = material.materialType;
-                row.appendChild(materialTypeCell);
+                const unitCell = document.createElement('td');
+                unitCell.textContent = unit;
+                row.appendChild(unitCell);
+
+                const unitaryPriceCell = document.createElement('td');
+                unitaryPriceCell.textContent = `$${material.price}`;
+                row.appendChild(unitaryPriceCell);
 
                 const quantityCell = document.createElement('td');
-                quantityCell.textContent = material.quantity.toFixed(2);
+                quantityCell.textContent = material.quantity;
                 row.appendChild(quantityCell);
 
                 const totalPriceCell = document.createElement('td');
-                totalPriceCell.textContent = `$${material.totalPrice.toFixed(2)}`;
+                totalPriceCell.textContent = `$${material.totalPrice}`;
                 row.appendChild(totalPriceCell);
 
                 // Append the row to the table body
                 materialsTableBody.appendChild(row);
+
+                // Add totalPrice to the total sum
+                totalSum += material.totalPrice;
             });
+
+            // Create and append the total sum row
+            const totalRow = document.createElement('tr');
+            totalRow.innerHTML = `
+                <td colspan="4" style="text-align: right; font-weight: bold;">Total</td>
+                <td style="font-weight: bold;">$${totalSum}</td>
+            `;
+            materialsTableBody.appendChild(totalRow);
         } else {
             alert('Project not found!');
         }

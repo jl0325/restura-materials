@@ -15,45 +15,96 @@
         <script defer src="js/auth.js"></script>
         <script defer src="js/navbar.js"></script>
         <script defer src="js/form-detail.js"></script>
+        <style>
+            #project-details {
+                font-family: Arial, sans-serif;
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 20px auto;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+        
+            .details-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+        
+            .detail-item p {
+                margin: 0;
+                padding: 10px;
+                background-color: #ffffff;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            }
+        
+            .detail-item strong {
+                color: #333;
+                font-weight: 600;
+            }
+        
+            .detail-item span {
+                color: #555;
+            }
+        </style>
     </head>
-<body>
-    <header>
-        <nav>
-            <ul id="navbar" class="nav nav-pills">
-                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="admin-forms.html" class="nav-link">Forms</a></li>
-            </ul>
-        </nav>
-    </header>
-    <div class="container mt-4">
-        <h2>Project Material Details</h2>
+    <body>
+        <header>
+            <nav>
+                <ul id="navbar" class="nav nav-pills">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="admin-forms.html" class="nav-link">Forms</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="container mt-4">
+            <h2>Project Material Details</h2>
 
-        <div id="project-details" class="mb-4">
-            <!-- Project details will be shown here -->
-            <p><strong>Client:</strong> <span id="client"></span></p>
-            <p><strong>Company:</strong> <span id="company"></span></p>
-            <p><strong>Date:</strong> <span id="date"></span></p>
-            <p><strong>Project:</strong> <span id="project"></span></p>
-            <p><strong>Username:</strong> <span id="userName"></span></p>
+            <div id="project-details" class="mb-4">
+                <!-- Project details will be shown here -->
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <p><strong>Client:</strong> <span id="client"></span></p>
+                    </div>
+                    <div class="detail-item">
+                        <p><strong>Company:</strong> <span id="company"></span></p>
+                    </div>
+                    <div class="detail-item">
+                        <p><strong>Date:</strong> <span id="date"></span></p>
+                    </div>
+                    <div class="detail-item">
+                        <p><strong>Project:</strong> <span id="project"></span></p>
+                    </div>
+                    <div class="detail-item">
+                        <p><strong>Worker:</strong> <span id="userName"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <h4>Materials</h4>
+            <!-- Updated table to display materials -->
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Material Name</th>
+                        <th>Unit</th>
+                        <th>Unitary Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="materials-list">
+                    <!-- Materials rows will be populated here -->
+                </tbody>
+            </table>
+
+            <div class="mt-4">
+                <button class="btn btn-primary" onclick="window.history.back()">Back</button>
+                <button class="btn btn-success" onclick="printPDF()">Print PDF</button>
+            </div>
         </div>
-
-        <h4>Materials</h4>
-        <!-- Updated table to display materials -->
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Material Name</th>
-                    <th>Material Type</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
-                </tr>
-            </thead>
-            <tbody id="materials-list">
-                <!-- Materials rows will be populated here -->
-            </tbody>
-        </table>
-
-        <button class="btn btn-primary mt-4" onclick="window.history.back()">Back</button>
-    </div>
-</body>
+    </body>
 </html>
