@@ -45,6 +45,14 @@
                         <input type="number" id="material-price" class="form-control" step="0.01" required>
                     </div>
                     <div class="col-md-6">
+                        <label for="material-description" class="form-label">Description</label>
+                        <input type="text" id="material-description" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="material-code" class="form-label">Code</label>
+                        <input type="text" id="material-code" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="col-md-6">
                         <label for="material-type" class="form-label">Type</label>
                         <select id="material-type" class="form-select" required>
                             <option value="1">Sand Paper</option>
@@ -75,7 +83,9 @@
                 <table class="table table-bordered table-striped" id="materials-table">
                     <thead>
                         <tr>
+                            <th>Code</th>
                             <th>Name</th>
+                            <th>Description</th>
                             <th>Unit</th>
                             <th>Price</th>
                             <th>Type</th>

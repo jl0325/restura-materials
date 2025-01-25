@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             Object.entries(materials).forEach(([materialId, materialData]) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
+                    <td>${materialData.code}</td>
                     <td>${materialData.name}</td>
+                    <td>${materialData.description}</td>
                     <td>${materialData.unit}</td>
                     <td>$${parseFloat(materialData.price).toFixed(2)}</td>
                     <td>${materialTypes[materialData.type]}</td>
@@ -41,13 +43,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Add a new material
     createMaterialForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const code = document.getElementById('material-code').value;
+        const description = document.getElementById('material-description').value;
         const name = document.getElementById('material-name').value;
         const unit = document.getElementById('material-unit').value;
         const price = parseFloat(document.getElementById('material-price').value).toFixed(2);
         const type = document.getElementById('material-type').value;
 
         const newMaterialRef = database.ref('materials').push();
-        await newMaterialRef.set({ name, unit, price, type });
+        await newMaterialRef.set({ name,code, description, unit, price, type });
         alert('Material added successfully!');
         createMaterialForm.reset();
         fetchMaterials();
