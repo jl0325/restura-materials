@@ -8,28 +8,45 @@ document.addEventListener('DOMContentLoaded', () => {
         navbarMenu.classList.toggle('open');
     });
 
+    // Always visible links (except Logout)
+    const defaultLinks = `
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="reportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Report Materials
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="reportDropdown">
+            <li><a class="dropdown-item" href="index.html">Create Your Materials Report</a></li>
+            <li><a class="dropdown-item" href="admin-forms.html">See Your Materials Report</a></li>
+        </ul>
+    </li>
+    <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
+    `;
+    navbarMenu.insertAdjacentHTML('beforeend', defaultLinks);
+
+
+    // Add admin-specific dropdown if the user is an admin
     if (currentUser) {
         const userData = JSON.parse(currentUser);
         if (userData.admin === 1) {
-            // Add admin-specific links to the navbar
-            const adminLinks = `
-                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="admin-forms.html" class="nav-link">Forms</a></li>
-                <li class="nav-item"><a href="admin-user.html" class="nav-link">Users</a></li>
-                <li class="nav-item"><a href="admin-materials.html" class="nav-link">Materials</a></li>
-                <li class="nav-item"><a href="companies.html" class="nav-link">Companies</a></li>
-                <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
-                <li class="nav-item" id="logout-link"><a href="logout.html" class="nav-link">Logout</a></li>
+            const adminDropdown = `
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Admin
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                        <li><a class="dropdown-item" href="admin-materials.html">Materials</a></li>
+                        <li><a class="dropdown-item" href="admin-user.html">Users</a></li>
+                        <li><a class="dropdown-item" href="companies.html">Companies</a></li>
+                    </ul>
+                </li>
             `;
-            navbarMenu.insertAdjacentHTML('beforeend', adminLinks);
+            navbarMenu.insertAdjacentHTML('beforeend', adminDropdown);
         }
-    } else {
-        const defaultLinks = `
-            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="admin-forms.html" class="nav-link">Forms</a></li>
-                <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
-            <li class="nav-item" id="logout-link"><a href="logout.html" class="nav-link">Logout</a></li>
-        `;
-        navbarMenu.insertAdjacentHTML('beforeend', defaultLinks);
     }
+
+    // Add Logout as the last option
+    const logoutLink = `
+        <li class="nav-item" id="logout-link"><a href="logout.html" class="nav-link">Logout</a></li>
+    `;
+    navbarMenu.insertAdjacentHTML('beforeend', logoutLink);
 });
