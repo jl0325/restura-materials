@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const editButton = document.createElement('button');
                 editButton.className = 'btn btn-warning btn-sm mx-1';
                 const editIcon = document.createElement('i');
-                editIcon.className = 'bi bi-pencil'; // Bootstrap icon for "Edit"
+                editIcon.className = 'fas fa-edit'; // Bootstrap icon for "Edit"
                 editButton.appendChild(editIcon);
                 editButton.addEventListener('click', () => {
                     editProject(key, project);
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const deleteButton = document.createElement('button');
                 deleteButton.className = 'btn btn-danger btn-sm mx-1';
                 const deleteIcon = document.createElement('i');
-                deleteIcon.className = 'bi bi-trash'; // Bootstrap icon for "Delete"
+                deleteIcon.className = 'fas fa-trash-alt'; // Bootstrap icon for "Delete"
                 deleteButton.appendChild(deleteIcon);
                 deleteButton.addEventListener('click', () => {
                     deleteProject(key);
