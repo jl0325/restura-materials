@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const materialNameSelect = document.getElementById('material-name');
     const materialsList = document.getElementById('materials-list');
     const addMaterialButton = document.getElementById('add-material');
+    const projectStatusSelect = document.getElementById('project-status'); // Status selector
+    const projectSelect = document.getElementById('project'); // Project selector
 
     let materialsArray = [];
 
@@ -26,6 +28,48 @@ document.addEventListener('DOMContentLoaded', () => {
         option.textContent = typeName;
         materialTypeSelect.appendChild(option);
     });
+
+    // Fetch projects by status from Firebase
+    const fetchProjectsByStatus = async (status) => {
+        try {
+            // Clear existing options in the project dropdown
+            projectSelect.innerHTML = '<option value="" disabled selected>Select Project</option>';
+
+            // Fetch projects based on status (Open or Closed)
+            const snapshot = await database.ref('projects').orderByChild('status').equalTo(status).once('value');
+            const projects = snapshot.val();
+
+            if (projects) {
+                Object.entries(projects).forEach(([id,project]) => {
+                    const option = document.createElement('option');
+                    option.value = project.name + '/' + project.company +  ' - ' + project.address;
+                    option.textContent = project.name + '/' + project.company +  ' - ' + project.address ; // Assuming `name` is the project name in your database
+                    projectSelect.appendChild(option);
+                });
+            } else {
+                // If no projects found, display a message
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'No projects available for this status';
+                projectSelect.appendChild(option);
+            }
+        } catch (error) {
+            console.error('Error fetching projects:', error);
+            alert('Unable to fetch projects. Please try again later.');
+        }
+    };
+
+    // Listen for changes in the project status selector
+    projectStatusSelect.addEventListener('change', () => {
+        const selectedStatus = projectStatusSelect.value;
+
+        if (selectedStatus) {
+            fetchProjectsByStatus(selectedStatus);
+        }
+    });
+
+    // Fetch initial set of projects (e.g., Open projects)
+    fetchProjectsByStatus('Open'); // Default status can be 'Open'
 
     // Fetch materials by type from Firebase when the type dropdown changes
     materialTypeSelect.addEventListener('change', async () => {
@@ -115,10 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const company = document.getElementById('company').value;
         const date = document.getElementById('date').value;
-        const project = document.getElementById('project').value.trim();
-        const client = document.getElementById('client').value.trim();
+        const projectFromDatabase = document.getElementById('project').value;
+        const parts = projectFromDatabase.split('/');
+        const company = parts[0];
+        const clientAndAddress = parts[1].split(' - ');
+        const client = clientAndAddress[0]; // This is project.company
+        const project = clientAndAddress[1]; // This is project.address
 
         if (!company || !date || !project || !client || materialsArray.length === 0) {
             alert('All fields and at least one material are required.');

@@ -29,59 +29,74 @@
             <ul id="navbar-menu" class="navbar-menu">
                 <!-- Links will be inserted dynamically by the script -->
             </ul>
-        </nav>             
+        </nav>   
     </header>
 
     <main class="container mt-4">
         <section>
-            <h2>Save Materials Used in this Project</h2>
+            <h2 class="mb-4">Save Materials Used in this Project</h2>
             <form id="materials-form">
-                <div class="mb-3">
-                    <label for="company" class="form-label">Company</label>
-                    <select id="company" class="form-select" required>
-                        <option value="" disabled selected>Select your company</option>
-                        <option value="Restaura">Restaura</option>
-                        <option value="Tweek">Tweek</option>
-                    </select>
+                <!-- Project Status and Project Name (Two Columns) -->
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="project-status" class="form-label">Project Status</label>
+                            <select id="project-status" class="form-select" required>
+                                <option value="" disabled selected>Select Status</option>
+                                <option value="Open">Open</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="project" class="form-label">Project Name</label>
+                            <select id="project" class="form-select" required>
+                                <option value="" disabled selected>Select Project</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="date" class="form-label">Date</label>
-                    <input type="date" id="date" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label for="project" class="form-label">Project Name</label>
-                    <input type="text" id="project" class="form-control" placeholder="Enter project name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="client" class="form-label">Client Name</label>
-                    <input type="text" id="client" class="form-control" placeholder="Enter client name" required>
+                
+                <!-- Date Field -->
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="date" id="date" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
 
-                <h4>Add Materials</h4>
-                <div class="row g-2">
+                <h4 class="mt-4">Add Materials</h4>
+                <div class="row g-3">
                     <div class="col-md-4">
                         <label for="material-type" class="form-label">Material Type</label>
                         <select id="material-type" class="form-select" required></select>
                     </div>
+
                     <div class="col-md-4">
                         <label for="material-name" class="form-label">Material Name</label>
                         <select id="material-name" class="form-select" required></select>
                     </div>
+
                     <div class="col-md-3">
                         <label for="quantity" class="form-label">Quantity</label>
                         <input type="number" min="0" max="10000" step="0.25" id="quantity" class="form-control" placeholder="Enter quantity" required>
                     </div>
+
                     <div class="col-md-1 d-flex align-items-end">
                         <button type="button" id="add-material" class="btn btn-success w-100">+</button>
                     </div>
                 </div>
 
-                <h4>Materials List</h4>
+                <h4 class="mt-4">Materials List</h4>
                 <ul id="materials-list" class="list-group mb-3">
                     <!-- Material items will appear here -->
                 </ul>
 
-                <button type="submit" class="btn btn-primary">Save All</button>
+                <button type="submit" class="btn btn-primary w-100">Save All</button>
             </form>
         </section>
     </main>
