@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <li class="nav-item"><a href="admin-user.html" class="nav-link">Users</a></li>
                 <li class="nav-item"><a href="admin-materials.html" class="nav-link">Materials</a></li>
                 <li class="nav-item"><a href="companies.html" class="nav-link">Companies</a></li>
+                <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
                 <li class="nav-item" id="logout-link"><a href="logout.html" class="nav-link">Logout</a></li>
             `;
             navbarMenu.insertAdjacentHTML('beforeend', adminLinks);
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const defaultLinks = `
             <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
             <li class="nav-item"><a href="admin-forms.html" class="nav-link">Forms</a></li>
+                <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
             <li class="nav-item" id="logout-link"><a href="logout.html" class="nav-link">Logout</a></li>
         `;
         navbarMenu.insertAdjacentHTML('beforeend', defaultLinks);
