@@ -90,10 +90,8 @@ function populateMaterialsTable(materials, isAdmin, projectId) {
         totalSum += material.totalPrice || 0;
     });
 
-    // Append the total sum row for admins
-    if (isAdmin) {
-        appendTotalRow(materialsTableBody, totalSum);
-    }
+    // Append the total sum row
+    appendTotalRow(materialsTableBody, totalSum, isAdmin);
 }
 
 /**
@@ -172,7 +170,12 @@ function createEditableQuantityCell(quantity, index, projectId) {
 function createDeleteButtonCell(index, projectId) {
     const cell = document.createElement('td');
     const button = document.createElement('button');
-    button.textContent = 'Delete';
+    // Add Font Awesome trash icon
+    const icon = document.createElement('i');
+    icon.classList.add('fas', 'fa-trash'); // Font Awesome trash icon classes
+    button.appendChild(icon); // Add the icon to the button
+
+    // Add Bootstrap button classes
     button.classList.add('btn', 'btn-danger', 'btn-sm');
 
     // Delete the material when the button is clicked
@@ -203,12 +206,14 @@ function createDeleteButtonCell(index, projectId) {
  * Appends a total sum row to the materials table.
  * @param {HTMLElement} tableBody - The table body element.
  * @param {number} totalSum - The total sum of all materials.
+ * @param {boolean} isAdmin - Whether the user is an admin.
  */
-function appendTotalRow(tableBody, totalSum) {
+function appendTotalRow(tableBody, totalSum, isAdmin) {
     const totalRow = document.createElement('tr');
     totalRow.innerHTML = `
-        <td colspan="${isAdmin ? 5 : 3}" style="text-align: right; font-weight: bold;">Total</td>
+        <td colspan="${isAdmin ? 4 : 3}" style="text-align: right; font-weight: bold;">Total</td>
         <td style="font-weight: bold;">$${totalSum.toFixed(2)}</td>
+        <td style="font-weight: bold;"></td>
     `;
     tableBody.appendChild(totalRow);
 }

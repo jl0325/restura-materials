@@ -68,6 +68,48 @@
             margin-top: 20px;
             border-top: 1px solid #ddd;
         }
+
+        /* Print-specific styles */
+        @media print {
+            .navbar, .btn-group, #print-button {
+                display: none;
+            }
+            .container {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+            }
+            .details-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            .detail-item p {
+                padding: 8px;
+                background: #fafafa;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .table th, .table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+            .table thead {
+                background-color: #f4f4f4;
+            }
+            footer {
+                display: block;
+                text-align: center;
+                margin-top: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -91,6 +133,13 @@
 
     <main class="container mt-4">
         <h1 class="mb-4">Project Material Details</h1>
+
+        <!-- Print Button -->
+        <div class="text-end mb-3">
+            <button id="print-button" class="btn btn-primary">
+                <i class="fas fa-print"></i> Print
+            </button>
+        </div>
 
         <div id="project-details" class="mb-4">
             <div class="details-grid">
@@ -130,9 +179,23 @@
                 </tbody>
             </table>
         </div>
+    </main>
 
     <footer class="text-center mt-4 py-3 bg-light">
         <p>&copy; 2025 Restaura Materials. All rights reserved.</p>
     </footer>
+
+    <!-- JavaScript for Print Functionality -->
+    <script>
+        // Add event listener to the print button
+        document.getElementById('print-button')?.addEventListener('click', () => {
+            printPage();
+        });
+
+        // Function to trigger the print dialog
+        function printPage() {
+            window.print();
+        }
+    </script>
 </body>
 </html>
