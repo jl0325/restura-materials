@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const defaultLinks = `
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="reportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Report Materials
+            Material's Report
         </a>
         <ul class="dropdown-menu" aria-labelledby="reportDropdown">
             <li><a class="dropdown-item" href="index.html">Create Your Materials Report</a></li>

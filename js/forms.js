@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const database = firebase.database();
     const materialTypes = {
-        1: 'Sand Paper',
+        1: 'Sand Paper/Pads/Disc',
         2: 'Base coat paint or mixed colors',
         3: 'Spray Cans',
         4: 'Fillers',

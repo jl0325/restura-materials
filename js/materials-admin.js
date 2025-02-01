@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const createMaterialForm = document.querySelector('#create-material-form');
 
     const materialTypes = {
-        1: 'Sand Paper',
+        1: 'Sand Paper/Pads/Disc',
         2: 'Base coat paint or mixed colors',
         3: 'Spray Cans',
         4: 'Fillers',
