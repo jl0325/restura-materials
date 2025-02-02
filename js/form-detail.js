@@ -74,7 +74,7 @@ function populateMaterialsTable(materials, isAdmin, projectId) {
         if (isAdmin) {
             cells.push(createTableCell(`$${material.price}`));
             cells.push(createEditableQuantityCell(material.quantity, index, projectId));
-            cells.push(createTableCell(`$${material.totalPrice}`));
+            cells.push(createTableCell(`$${material.totalPrice.toFixed(2)}`));
             cells.push(createDeleteButtonCell(index, projectId));
         } else {
             cells.push(createTableCell(material.quantity));

@@ -53,9 +53,6 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
-        .table th, .table td {
-            text-align: center;
-        }
         .btn-group {
             display: flex;
             justify-content: space-between;
@@ -132,8 +129,6 @@
     </header>
 
     <main class="container mt-4">
-        <h1 class="mb-4">Project Material Details</h1>
-
         <!-- Print Button -->
         <div class="text-end mb-3">
             <button id="print-button" class="btn btn-primary">
@@ -141,44 +136,59 @@
             </button>
         </div>
 
-        <div id="project-details" class="mb-4">
-            <div class="details-grid">
-                <div class="detail-item">
-                    <p><strong>Client:</strong> <span id="client"></span></p>
+        <!-- Project Details Section -->
+        <section id="project-details" class="mb-4">
+            <h2>Project Information</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="detail-item">
+                        <p><strong>Client:</strong> <span id="client"></span></p>
+                    </div>
                 </div>
-                <div class="detail-item">
-                    <p><strong>Company:</strong> <span id="company"></span></p>
+                <div class="col-md-6">
+                    <div class="detail-item">
+                        <p><strong>Company:</strong> <span id="company"></span></p>
+                    </div>
                 </div>
-                <div class="detail-item">
-                    <p><strong>Date:</strong> <span id="date"></span></p>
+                <div class="col-md-6">
+                    <div class="detail-item">
+                        <p><strong>Date:</strong> <span id="date"></span></p>
+                    </div>
                 </div>
-                <div class="detail-item">
-                    <p><strong>Project:</strong> <span id="project"></span></p>
+                <div class="col-md-6">
+                    <div class="detail-item">
+                        <p><strong>Project:</strong> <span id="project"></span></p>
+                    </div>
                 </div>
-                <div class="detail-item">
-                    <p><strong>Worker:</strong> <span id="userName"></span></p>
+                <div class="col-md-6">
+                    <div class="detail-item">
+                        <p><strong>Worker:</strong> <span id="userName"></span></p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <h2 class="mt-4 mb-3">Materials</h2>
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead class="table-light">
-                    <tr>
-                        <th>Material Name</th>
-                        <th>Unit</th>
-                        <th>Unitary Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="materials-list">
-                    <!-- Materials rows will be populated here -->
-                </tbody>
-            </table>
-        </div>
+        <!-- Materials List Section -->
+        <section id="materials-section">
+            <h2 class="mt-4 mb-3">Materials</h2>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Material Name</th>
+                            <th>Unit</th>
+                            <th>Unitary Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="materials-list">
+                        <!-- Materials rows will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
