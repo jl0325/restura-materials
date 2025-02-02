@@ -61,6 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const row = document.createElement('tr');
 
                 // Create cells for each field
+                const timestampCell = document.createElement('td');
+                const date = new Date(project.timestamp);
+                timestampCell.textContent = date.toLocaleString(); // Formats as readable date and time
+                row.appendChild(timestampCell);
+                
                 const dateCell = document.createElement('td');
                 dateCell.textContent = project.date;
                 row.appendChild(dateCell);

@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const database = firebase.database();
     const materialTypes = {
+        0: '',
         1: 'Sand Paper/Pads/Disc',
         2: 'Base coat paint or mixed colors',
         3: 'Spray Cans',
@@ -40,10 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const projects = snapshot.val();
 
             if (projects) {
-                Object.entries(projects).forEach(([id,project]) => {
+                Object.entries(projects).forEach(([id, project]) => {
                     const option = document.createElement('option');
-                    option.value = project.name + '/' + project.company +  ' - ' + project.address;
-                    option.textContent = project.name + '/' + project.company +  ' - ' + project.address ; // Assuming `name` is the project name in your database
+                    option.value = project.name + '/' + project.company + ' - ' + project.address;
+                    option.textContent = project.name + '/' + project.company + ' - ' + project.address; // Assuming `name` is the project name in your database
                     projectSelect.appendChild(option);
                 });
             } else {
@@ -135,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
                 listItem.textContent = `${materialName} (${materialType}) - Quantity: ${quantity.toFixed(2)}`;
-                
+
                 // Remove button for the material
                 const removeButton = document.createElement('button');
                 removeButton.className = 'btn btn-danger btn-sm';
@@ -185,7 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
             project,
             client,
             materials: materialsArray,
-            userName: currentUser.name // Save user name
+            userName: currentUser.name, // Save user name
+            timestamp: firebase.database.ServerValue.TIMESTAMP // Add timestamp
         };
 
         try {

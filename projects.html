@@ -65,10 +65,9 @@
                         <div class="col-12 col-md-6">
                             <label for="project-supervisor" class="form-label">Project Supervisor</label>
                             <input type="text" class="form-control" id="project-supervisor">
-                        </div>
-                        <div class="col-12 col-md-6">
+                        </div><div class="col-12 col-md-6">
                             <label for="project-phone" class="form-label">Phone</label>
-                            <input type="tel" class="form-control" id="project-phone" pattern="[0-9]{10}" title="Please enter a 10-digit phone number">
+                            <input type="tel" class="form-control" id="project-phone" pattern="0[0-9]{9}" title="Please enter a 10-digit Australian phone number starting with 0">
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="project-status" class="form-label">Status</label>
@@ -119,8 +118,8 @@
 
                 <!-- Projects Table -->
                 <div class="table-responsive">
-                    <table id="projects-table" class="table table-striped table-bordered table-hover">
-                        <thead>
+                    <table id="projects-table" class="table table-hover table-bordered align-middle">
+                        <thead class="table-dark">
                             <tr>
                                 <th>Company</th>
                                 <th>Address</th>
@@ -160,8 +159,9 @@
         </div>
     </main>
 
-    <footer class="text-center py-4">
-        <p>&copy; 2025 Restaura Projects. All rights reserved.</p>
+    <!-- Footer -->
+    <footer class="text-center bg-dark text-white py-3 mt-4">
+        <p class="mb-0">&copy; 2025 Restaura Materials. All rights reserved.</p>
     </footer>
 
     <!-- Add this script for dynamic status color and filtering -->

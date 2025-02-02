@@ -12,25 +12,65 @@
     <script defer src="js/auth.js"></script>
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #000; /* Black background */
             font-family: Arial, sans-serif;
+            color: #fff; /* White text for contrast */
         }
         .signup-container {
             max-width: 400px;
             margin: 50px auto;
             padding: 20px;
-            background: white;
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .form-title {
             text-align: center;
             margin-bottom: 20px;
+            color: #fff; /* White text for the title */
+        }
+        .brand-logo {
+            display: block;
+            margin: 0 auto 20px auto; /* Center the logo and add space below */
+            max-width: 150px; /* Adjust the size of the logo */
+            height: auto;
+        }
+        .password-toggle {
+            cursor: pointer;
+            color: #007bff;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .password-toggle:hover {
+            text-decoration: underline;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent input fields */
+            color: #fff; /* White text for inputs */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Light border for inputs */
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5); /* Light placeholder text */
         }
     </style>
 </head>
 <body>
     <main class="signup-container">
+        <!-- Brand Logo -->
+        <img src="assets/restaura.jpg" alt="Restaura Logo" style="border-radius: 50%; height: 50px; width: 50px;" class="brand-logo">
+
         <h1 class="form-title">Sign Up</h1>
         <form id="signup-form">
             <div class="mb-3">
@@ -39,7 +79,7 @@
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone</label>
-                <input type="tel" class="form-control" id="phone" placeholder="+61XXXXXXXXX" required>
+                <input type="tel" class="form-control" id="phone" pattern="0[0-9]{9}" title="Please enter a 10-digit Australian phone number starting with 0" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
@@ -47,14 +87,52 @@
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" required>
+                <input type="password" class="form-control" id="password" minlength="8" required>
+                <small class="form-text text-muted">Password must be at least 8 characters long.</small>
             </div>
             <div class="mb-3">
                 <label for="confirm-password" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirm-password" required>
+                <input type="password" class="form-control" id="confirm-password" minlength="8" required>
+                <small id="password-match-error" class="text-danger" style="display: none;">Passwords do not match.</small>
+            </div>
+            <div class="mb-3">
+                <span class="password-toggle" onclick="togglePasswordVisibility()">Show Password</span>
             </div>
             <button type="submit" class="btn btn-primary w-100">Sign Up</button>
         </form>
     </main>
+
+    <script>
+        // Function to toggle password visibility
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('confirm-password');
+            const toggleText = document.querySelector('.password-toggle');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                confirmPasswordField.type = 'text';
+                toggleText.textContent = 'Hide Password';
+            } else {
+                passwordField.type = 'password';
+                confirmPasswordField.type = 'password';
+                toggleText.textContent = 'Show Password';
+            }
+        }
+
+        // Function to validate password match
+        document.getElementById('signup-form').addEventListener('submit', function (event) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const passwordMatchError = document.getElementById('password-match-error');
+
+            if (password !== confirmPassword) {
+                passwordMatchError.style.display = 'block';
+                event.preventDefault(); // Prevent form submission
+            } else {
+                passwordMatchError.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
