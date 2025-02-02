@@ -5,13 +5,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const materialTypes = {
         1: 'Sand Paper/Pads/Disc',
-        2: 'Base coat paint or mixed colors',
-        3: 'Spray Cans',
-        4: 'Fillers',
-        5: 'Chemicals',
-        6: 'Masking',
-        7: 'Stuff Amenities',
-        8: 'Others'
+        2: 'Stains /Varnish / Oils / Polish',
+        3: 'Base coat paint or mixed colors',
+        4: 'Spray Cans',
+        5: 'Fillers',
+        6: 'Chemicals',
+        7: 'Masking',
+        8: 'Stuff Amenities',
+        9: 'Others'
     };
 
     // Fetch and display materials
@@ -59,13 +60,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Edit a material
     window.editMaterial = async function (materialId) {
-        const name = prompt('Enter new name:');
-        const unit = prompt('Enter new unit:');
+        const code = prompt('Enter new code:');
         const price = parseFloat(prompt('Enter new price (decimal allowed):')).toFixed(2);
-        const type = prompt('Enter new type (1-8):');
 
-        if (name && unit && !isNaN(price) && type && materialTypes[type]) {
-            await database.ref(`materials/${materialId}`).update({ name, unit, price, type });
+        if ( !isNaN(price) && code) {
+            await database.ref(`materials/${materialId}`).update({ code, price });
             alert('Material updated successfully!');
             fetchMaterials();
         } else {

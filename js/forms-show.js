@@ -1,9 +1,7 @@
-// Wait for the DOM content to load
 document.addEventListener('DOMContentLoaded', () => {
     const database = firebase.database();
     const projectsRef = database.ref('projectMaterials');
     const projectsTableBody = document.querySelector('#projects-table tbody');
-    const searchInput = document.getElementById('searchInput');
     const currentUser = getCurrentUser();
 
     // Check if the user is logged in and is an admin
@@ -29,17 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Filter table based on search input
-    searchInput.addEventListener('input', () => {
-        const filter = searchInput.value.toLowerCase();
-        Array.from(projectsTableBody.rows).forEach((row) => {
-            const cells = row.getElementsByTagName('td');
-            const matches = Array.from(cells).some((cell) =>
-                cell.textContent.toLowerCase().includes(filter)
-            );
-            row.style.display = matches ? '' : 'none';
-        });
-    });
 
     // Function to render the project data into the table
     function displayProjects(snapshot) {
@@ -108,6 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.appendChild(actionsCell);
                 projectsTableBody.appendChild(row);
             });
+
+            // Initialize DataTable after data is loaded
+            $('#projects-table').DataTable();
         } else {
             const row = document.createElement('tr');
             const cell = document.createElement('td');

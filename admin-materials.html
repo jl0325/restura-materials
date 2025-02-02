@@ -44,7 +44,7 @@
                 <form id="create-material-form" class="row g-3">
                     <div class="col-md-6">
                         <label for="material-name" class="form-label">Name</label>
-                        <input type="text" id="material-name" class="form-control" required>
+                        <input type="text" id="material-name" class="form-control" required pattern="^[a-zA-Z0-9\s]+$" title="Name should only contain letters, numbers, and spaces.">
                     </div>
                     <div class="col-md-6">
                         <label for="material-unit" class="form-label">Unit</label>
@@ -65,14 +65,15 @@
                     <div class="col-md-6">
                         <label for="material-type" class="form-label">Type</label>
                         <select id="material-type" class="form-select" required>
-                            <option value="1">Sand Paper</option>
-                            <option value="2">Base coat paint or mixed colors</option>
-                            <option value="3">Spray Cans</option>
-                            <option value="4">Fillers</option>
-                            <option value="5">Chemicals</option>
-                            <option value="6">Masking</option>
-                            <option value="7">Stuff Amenities</option>
-                            <option value="8">Others</option>
+                            <option value="1">Sand Paper/Pads/Disc</option>
+                            <option value="2">Stains/Varnish/ Oils/Polish</option>
+                            <option value="3">Base coat paint or mixed colors</option>
+                            <option value="4">Spray Cans</option>
+                            <option value="5">Fillers</option>
+                            <option value="6">Chemicals</option>
+                            <option value="7">Masking</option>
+                            <option value="8">Stuff Amenities</option>
+                            <option value="9">Others</option>
                         </select>
                     </div>
                     <div class="col-12">

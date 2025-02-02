@@ -3,13 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const materialTypes = {
         0: '',
         1: 'Sand Paper/Pads/Disc',
-        2: 'Base coat paint or mixed colors',
-        3: 'Spray Cans',
-        4: 'Fillers',
-        5: 'Chemicals',
-        6: 'Masking',
-        7: 'Stuff Amenities',
-        8: 'Others'
+        2: 'Stains /Varnish / Oils / Polish',
+        3: 'Base coat paint or mixed colors',
+        4: 'Spray Cans',
+        5: 'Fillers',
+        6: 'Chemicals',
+        7: 'Masking',
+        8: 'Stuff Amenities',
+        9: 'Others'
     };
 
     const form = document.getElementById('materials-form');
