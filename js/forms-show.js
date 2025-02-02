@@ -15,17 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch and display project materials based on user role
     if (currentUser.admin === 1) {
-        // Admin: Show all projects ordered by date (newest to oldest)
-        projectsRef.orderByChild('date').on('value', (snapshot) => {
-            displayProjects(snapshot, true); // Pass `true` to reverse order
+        // Admin: Show all projects ordered by timestamp (latest to oldest)
+        projectsRef.orderByChild('timestamp').on('value', (snapshot) => {
+            displayProjects(snapshot);
         });
     } else {
-        // Non-admin: Show only projects where userName matches current user's name, ordered by date
+        // Non-admin: Show only projects where userName matches current user's name, ordered by timestamp
         projectsRef
             .orderByChild('userName')
             .equalTo(currentUser.name)
             .on('value', (snapshot) => {
-                displayProjects(snapshot, true); // Pass `true` to reverse order
+                displayProjects(snapshot);
             });
     }
 
@@ -42,20 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Function to render the project data into the table
-    function displayProjects(snapshot, reverse = false) {
+    function displayProjects(snapshot) {
         projectsTableBody.innerHTML = ''; // Clear existing rows
 
         const projects = snapshot.val();
 
         if (projects) {
-            // Convert object to array and sort by date
+            // Convert object to array and sort by timestamp in descending order
             const sortedProjects = Object.entries(projects)
-                .sort(([ , a], [ , b]) => new Date(a.date) - new Date(b.date));
-
-            // Reverse the sorted array if reverse is true
-            if (reverse) {
-                sortedProjects.reverse();
-            }
+                .sort(([ , a], [ , b]) => new Date(b.timestamp) - new Date(a.timestamp));
 
             sortedProjects.forEach(([key, project]) => {
                 const row = document.createElement('tr');
@@ -116,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const row = document.createElement('tr');
             const cell = document.createElement('td');
-            cell.colSpan = 6;
+            cell.colSpan = 7;
             cell.textContent = 'No projects available';
             row.appendChild(cell);
             projectsTableBody.appendChild(row);
