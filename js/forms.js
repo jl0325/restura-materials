@@ -5,12 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
         1: 'Sand Paper/Pads/Disc',
         2: 'Stains /Varnish / Oils / Polish',
         3: 'Base coat paint or mixed colors',
-        4: 'Spray Cans',
-        5: 'Fillers',
+        4: 'Fillers',
+        5: 'Spray Cans',
         6: 'Chemicals',
         7: 'Masking',
-        8: 'Stuff Amenities',
-        9: 'Others'
+        8: 'Spray painting products',
+        9: 'Spray painting complements',
+        10: 'Stuff Amenities',
+        11: 'Polishing',
+        12: 'Others'
     };
 
     const form = document.getElementById('materials-form');
