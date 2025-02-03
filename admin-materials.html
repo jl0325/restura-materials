@@ -16,6 +16,36 @@
     <script defer src="js/navbar.js"></script>
     <script defer src="js/materials-admin.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootsrap-table@1.0.0/dist/bs-table-filter.min.js"></script> <!-- Include Bootstrap table filter -->
+ <style>
+        @media (max-width: 768px) {
+            .table-responsive thead {
+                display: none;
+            }
+            .table-responsive tbody tr {
+                display: block;
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 10px;
+                background: #fff;
+            }
+            .table-responsive tbody td {
+                display: block;
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+            .table-responsive tbody td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                text-align: left;
+                font-weight: bold;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
