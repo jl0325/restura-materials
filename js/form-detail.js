@@ -54,8 +54,27 @@ function populateProjectDetails(projectData) {
  * @param {string} projectId - The project ID.
  */
 function populateMaterialsTable(materials, isAdmin, projectId) {
-    const materialsTableBody = document.getElementById('materials-list');
+    const materialsTableBody = document.getElementById('materials-list'); // Table element
+    const materialsTableHead = document.getElementById('materials-head'); // Table head
+    materialsTableBody.innerHTML = ''; // Clear previous content
     let totalSum = 0; // Initialize total sum
+
+    // Define table headers based on user role
+    materialsTableHead.innerHTML = isAdmin
+        ? `<tr>
+            <th>Name</th>
+            <th>Unit</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Action</th>
+          </tr>`
+        : `<tr>
+            <th>Name</th>
+            <th>Unit</th>
+            <th>Quantity</th>
+            <th>Action</th>
+          </tr>`;
 
     materials.forEach((material, index) => {
         // Extract name and unit from materialName
@@ -69,7 +88,6 @@ function populateMaterialsTable(materials, isAdmin, projectId) {
             createTableCell(name),
             createTableCell(unit),
         ];
-
         // Add additional columns for admins
         if (isAdmin) {
             cells.push(createTableCell(`$${material.price}`));
@@ -77,7 +95,8 @@ function populateMaterialsTable(materials, isAdmin, projectId) {
             cells.push(createTableCell(`$${material.totalPrice.toFixed(2)}`));
             cells.push(createDeleteButtonCell(index, projectId));
         } else {
-            cells.push(createTableCell(material.quantity));
+            cells.push(createEditableQuantityCell(material.quantity, index, projectId));
+            cells.push(createDeleteButtonCell(index, projectId));
         }
 
         // Append cells to the row
@@ -210,10 +229,12 @@ function createDeleteButtonCell(index, projectId) {
  */
 function appendTotalRow(tableBody, totalSum, isAdmin) {
     const totalRow = document.createElement('tr');
-    totalRow.innerHTML = `
-        <td colspan="${isAdmin ? 4 : 3}" style="text-align: right; font-weight: bold;">Total</td>
-        <td style="font-weight: bold;">$${totalSum.toFixed(2)}</td>
-        <td style="font-weight: bold;"></td>
-    `;
-    tableBody.appendChild(totalRow);
+    if(isAdmin==='1'){
+        totalRow.innerHTML = `
+            <td colspan="${isAdmin ? 4 : 3}" style="text-align: right; font-weight: bold;">Total</td>
+            <td style="font-weight: bold;">$${totalSum.toFixed(2)}</td>
+            <td style="font-weight: bold;"></td>
+        `;
+        tableBody.appendChild(totalRow);
+    }
 }
