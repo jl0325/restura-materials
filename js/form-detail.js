@@ -44,7 +44,6 @@ function populateProjectDetails(projectData) {
     document.getElementById('company').textContent = projectData.company || 'N/A';
     document.getElementById('date').textContent = projectData.date || 'N/A';
     document.getElementById('project').textContent = projectData.project || 'N/A';
-    document.getElementById('userName').textContent = projectData.userName || 'N/A';
 }
 
 /**
@@ -63,16 +62,16 @@ function populateMaterialsTable(materials, isAdmin, projectId) {
     materialsTableHead.innerHTML = isAdmin
         ? `<tr>
             <th>Name</th>
+            <th>Quantity</th>
             <th>Unit</th>
             <th>Price</th>
-            <th>Quantity</th>
             <th>Total Price</th>
             <th>Action</th>
           </tr>`
         : `<tr>
             <th>Name</th>
-            <th>Unit</th>
             <th>Quantity</th>
+            <th>Unit</th>
             <th>Action</th>
           </tr>`;
 
@@ -86,16 +85,17 @@ function populateMaterialsTable(materials, isAdmin, projectId) {
         // Create table cells for each material property
         const cells = [
             createTableCell(name),
-            createTableCell(unit),
         ];
         // Add additional columns for admins
         if (isAdmin) {
-            cells.push(createTableCell(`$${material.price}`));
             cells.push(createEditableQuantityCell(material.quantity, index, projectId));
+            cells.push(createTableCell(unit));
+            cells.push(createTableCell(`$${material.price}`));
             cells.push(createTableCell(`$${material.totalPrice.toFixed(2)}`));
             cells.push(createDeleteButtonCell(index, projectId));
         } else {
             cells.push(createEditableQuantityCell(material.quantity, index, projectId));
+            cells.push(createTableCell(unit));
             cells.push(createDeleteButtonCell(index, projectId));
         }
 

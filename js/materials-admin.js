@@ -83,49 +83,50 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-// Edit a material
-window.editMaterial = async function (materialId) {
-    try {
-        const snapshot = await database.ref(`materials/${materialId}`).once('value');
-        const material = snapshot.val();
+    // Edit a material
+    window.editMaterial = async function (materialId) {
+        try {
+            const snapshot = await database.ref(`materials/${materialId}`).once('value');
+            const material = snapshot.val();
 
-        if (!material) {
-            alert('Material not found.');
-            return;
-        }
+            if (!material) {
+                alert('Material not found.');
+                return;
+            }
 
-        const newCode = prompt('Enter new code:', material.code);
-        const newDescription = prompt('Enter new description:', material.description);
-        const newUnit = prompt('Enter new unit:', material.unit);
-        const newPrice = parseFloat(prompt('Enter new price (decimal allowed):', material.price)).toFixed(2);
-        
-        // Create a dropdown for material types
-        let typeOptions = '';
-        Object.entries(materialTypes).forEach(([key, value]) => {
-            typeOptions += `${key}: ${value}\n`;
-        });
-
-        const newType = prompt(`Select new material type (Enter number):\n${typeOptions}`, material.type);
-
-        if (newCode && newDescription && newUnit && !isNaN(newPrice) && materialTypes[newType]) {
-            await database.ref(`materials/${materialId}`).update({ 
-                code: newCode, 
-                description: newDescription,
-                unit: newUnit,
-                price: newPrice, 
-                type: newType 
+            const newCode = prompt('Enter new code:', material.code);
+            const newName = prompt('Enter new name:', material.name);
+            const newDescription = prompt('Enter new description:', material.description);
+            const newUnit = prompt('Enter new unit:', material.unit);
+            const newPrice = parseFloat(prompt('Enter new price (decimal allowed):', material.price)).toFixed(2);
+            
+            // Create a dropdown for material types
+            let typeOptions = '';
+            Object.entries(materialTypes).forEach(([key, value]) => {
+                typeOptions += `${key}: ${value}\n`;
             });
-            alert('Material updated successfully!');
-            fetchMaterials();
-        } else {
-            alert('Invalid input. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error editing material:', error);
-        alert('Failed to update material.');
-    }
-};
 
+            const newType = prompt(`Select new material type (Enter number):\n${typeOptions}`, material.type);
+
+            if (newCode && newName && newDescription && newUnit && !isNaN(newPrice) && materialTypes[newType]) {
+                await database.ref(`materials/${materialId}`).update({ 
+                    code: newCode, 
+                    name: newName,
+                    description: newDescription,
+                    unit: newUnit,
+                    price: newPrice, 
+                    type: newType 
+                });
+                alert('Material updated successfully!');
+                fetchMaterials();
+            } else {
+                alert('Invalid input. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error editing material:', error);
+            alert('Failed to update material.');
+        }
+    };
 
 
     // Delete a material
