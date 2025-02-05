@@ -228,10 +228,10 @@ function createDeleteButtonCell(index, projectId) {
  * @param {boolean} isAdmin - Whether the user is an admin.
  */
 function appendTotalRow(tableBody, totalSum, isAdmin) {
-    const totalRow = document.createElement('tr');
-    if(isAdmin==='1'){
+    if (isAdmin == 1) {
+        const totalRow = document.createElement('tr');
         totalRow.innerHTML = `
-            <td colspan="${isAdmin ? 4 : 3}" style="text-align: right; font-weight: bold;">Total</td>
+            <td colspan="4" style="text-align: right; font-weight: bold;">Total</td>
             <td style="font-weight: bold;">$${totalSum.toFixed(2)}</td>
             <td style="font-weight: bold;"></td>
         `;
