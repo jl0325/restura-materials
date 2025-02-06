@@ -47,16 +47,14 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        .detail-item p {
-            padding: 4px;
-            background: #fafafa;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
         .btn-group {
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
+        }
+        .form-control{
+            padding: 2px 4px;
+            width: 60px;
         }
         footer {
             text-align: center;
@@ -64,40 +62,49 @@
             background: #fff;
             margin-top: 20px;
             border-top: 1px solid #ddd;
-        }
-        @media print {
-            @page {
-                size: A4 portrait; /* Forces wider print layout */
-                margin: 10mm;
-            }
-
-            body {
-                width: 100%;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-
-            .container {
-                width: 100% !important;
-                max-width: none !important;
-            }
-
-            .table {
-                width: 100% !important;
-            }
-
-            /* Hide navbar */
-            .navbar {
-                display: none !important;
-            }
-
-            /* Ensure footer is visible */
-            .footer {
-                display: block !important;
-                position: relative !important;
-            }
+        }@media print {
+        @page {
+            size: A4 portrait;
+            margin: 10mm;
         }
 
+        body {
+            width: 100%;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .container {
+            width: 100% !important;
+            max-width: none !important;
+        }
+
+        .table {
+            width: 100% !important;
+        }
+
+        /* Hide navbar */
+        .navbar {
+            display: none !important;
+        }
+
+        /* Hide Actions column when printing */
+        #materials-head th:last-child,
+        #materials-list td:last-child {
+            display: none !important;
+        }
+        #print-button {
+            display: none !important;
+        }
+        .form-control {
+            border-width: 0px;
+        }
+        /* Ensure footer is visible */
+        .footer {
+            display: block !important;
+            position: relative !important;
+        }
+    }
 
     </style>
 </head>
