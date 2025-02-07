@@ -82,6 +82,13 @@ function populateMaterialsTable(materials, isAdmin, projectId) {
         // Create a new table row
         const row = document.createElement('tr');
 
+        // Apply background color if MaterialType is "Provided By Tweek"
+        if (material.materialType == "Provided By Tweek") {
+            row.style.backgroundColor = "khaki";
+        }else{
+            row.style.backgroundColor = "white";
+        }
+
         // Create table cells for each material property
         const cells = [
             createTableCell(name),
