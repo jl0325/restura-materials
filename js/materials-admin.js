@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         9: 'Spray painting complements',
         10: 'Stuff Amenities',
         11: 'Polishing',
-        12: 'Others'
+        12: 'Others',
+        13: 'Provided By Tweek'
     };
 
     // Fetch and display materials
