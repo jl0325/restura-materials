@@ -15,16 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Function to fetch and filter hours
+    // Function to fetch and filter hours (only for the logged-in user)
     function fetchHours(startDate, endDate) {
         hoursRef.orderByChild('date').startAt(startDate).endAt(endDate).on('value', (snapshot) => {
             let filteredData = [];
 
             snapshot.forEach(childSnapshot => {
                 const record = childSnapshot.val();
-                console.log(childSnapshot.val());
-                // If the user is NOT an admin, filter by their name
-                if (currentUser.admin === 1 || record.userName === currentUser.name) {
+                console.log(record);
+                // Only show data for the current logged-in user
+                if (record.userName === currentUser.name) {
                     filteredData.push(record);
                 }
             });
