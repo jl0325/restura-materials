@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="hoursReportDropdown">
                         <li><a class="dropdown-item" href="hours-form.html">Create Your Hours Report</a></li>
-                        <li><a class="dropdown-item" href="admin-hours.html">See Your Hours Report</a></li>
+                        <li><a class="dropdown-item" href="show-hours.html">See Your Hours Report</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
