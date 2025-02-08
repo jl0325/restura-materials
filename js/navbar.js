@@ -11,6 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Always visible links (except Logout)
     const defaultLinks = `
     <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="hoursReportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Hour's Report
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="hoursReportDropdown">
+            <li><a class="dropdown-item" href="hours-form.html">Create Your Hours Report</a></li>
+            <li><a class="dropdown-item" href="show-hours.html">See Your Hours Report</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="materialReportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Material's Report
         </a>
@@ -28,15 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const userData = JSON.parse(currentUser);
         if (userData.admin === 1) {
             const adminDropdown = `
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="hoursReportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Hour's Report
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="hoursReportDropdown">
-                        <li><a class="dropdown-item" href="hours-form.html">Create Your Hours Report</a></li>
-                        <li><a class="dropdown-item" href="show-hours.html">See Your Hours Report</a></li>
-                    </ul>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Admin
