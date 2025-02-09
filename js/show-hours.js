@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('You need to log in first.');
         window.location.href = 'login.html';
         return;
+    }else{
+        document.getElementById('user-name').textContent = currentUser.name;
     }
 
     // Function to fetch and filter hours (only for the logged-in user)
@@ -59,11 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${record.company}</td>
                 <td>${record.client}</td>
                 <td>${record.project}</td>
-                <td>${record.userName}</td>
                 <td>${record.startHour}</td>
                 <td>${record.endHour}</td>
                 <td>${record.breakTime}</td>
-                <td>${record.typeOfHour}</td>
                 <td>${record.hoursWorked}</td>
             `;
 
