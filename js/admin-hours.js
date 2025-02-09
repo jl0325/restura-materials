@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let userRate = 0;  // Store the user rate here
+    let dataTable;
 
     usersRef.once('value', snapshot => {
         snapshot.forEach(childSnapshot => {
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fetchHours(userName, startDate, endDate) {
-        hoursRef.orderByChild('date').startAt(startDate).endAt(endDate).on('value', (snapshot) => {
+        hoursRef.orderByChild('date').startAt(startDate).endAt(endDate).once('value', (snapshot) => {
             let filteredData = [];
             let totalHours = 0;
             let totalTransport = 0;
@@ -75,24 +76,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function displayHours(data, totalHours, totalTransport, totalPerDay, userName) {
+        // Clear the existing table data
         tableBody.innerHTML = '';
-
+        // Reinitialize DataTable only after the data update triggered by the filter button
+        if ($.fn.dataTable.isDataTable('#admin-hours-table')) {
+            dataTable.clear().destroy();
+        }
+        if (data.length === 0) {
+            // If there's no data, show a message in the table
+            const row = document.createElement('tr');
+            row.innerHTML = '<td colspan="11" class="text-center">No data available</td>';
+            tableBody.appendChild(row);
+        }
+    
         data.forEach(record => {
             const row = document.createElement('tr');
-
-            // Set background color for specific type of hour
             row.style.backgroundColor = (record.typeOfHour === "Glass Polishing") ? "lightblue" : "white";
-
-            // Calculate totalPerDay (rate * hoursWorked)
+            
+            // Calculate totals and append rows
             const dayTotal = userRate * parseFloat(record.hoursWorked);
             const transportTotal = userRate * parseFloat(record.transportAssistance);
-
-            // Add the calculated totalPerDay and transport to the total sum
+    
             totalTransport += transportTotal;
             totalPerDay += dayTotal;
-
-            // Add row to the table
-            row.innerHTML = `
+    
+            row.innerHTML = ` 
                 <td>${record.date}</td>
                 <td>${record.company}</td>
                 <td>${record.client}</td>
@@ -101,36 +109,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${record.endHour}</td>
                 <td>${record.breakTime}</td>
                 <td>${record.hoursWorked}</td>
-                <td>${dayTotal.toFixed(2)}</td> <!-- Total per day -->
+                <td>${dayTotal.toFixed(2)}</td>
                 <td>${record.transportAssistance}</td>
-                <td>${transportTotal}</td> <!-- Transport assistance (Rate if Yes, 0 if No) -->
+                <td>${transportTotal}</td>
             `;
-
             tableBody.appendChild(row);
         });
-
-        // Initialize DataTable with new data
-        if ($.fn.dataTable.isDataTable('#admin-hours-table')) {
-            $('#admin-hours-table').DataTable().clear().destroy();
-        }
-
-        $('#admin-hours-table').DataTable({
+    
+        dataTable = $('#admin-hours-table').DataTable({
             dom: 'Bfrtip',
-            searching: false, // Hide search bar
-            buttons: ['copy', 'csv', 'excel', 'pdf', 'print'] // Enable export buttons
+            searching: false,  // Hide search bar
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']  // Enable export buttons
         });
-
-        // Create a total row for hours worked, total per day, and transport assistance
+    
+        // Add the total row after data update
         const totalRow = document.createElement('tr');
         totalRow.style.fontWeight = 'bold';
-        totalRow.innerHTML = `
+        totalRow.innerHTML = ` 
             <td colspan="7" class="text-end">Total</td>
             <td>${totalHours}</td>
-            <td>${totalPerDay.toFixed(2)}</td> <!-- Total Per Day -->
-            <td></td> <!-- Total Per Day -->
-            <td>${totalTransport}</td> <!-- Total Transport Assistance -->
+            <td>${totalPerDay.toFixed(2)}</td>
+            <td></td>
+            <td>${totalTransport}</td>
         `;
         tableBody.appendChild(totalRow);
     }
-
+    
 });
