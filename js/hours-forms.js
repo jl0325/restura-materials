@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startHourInput = document.getElementById("start-hour");
     const endHourInput = document.getElementById("end-hour");
     const breakTimeInput = document.getElementById("break-time");
+    const transportAssistanceCheckbox = document.getElementById("transport-assistance");  // New checkbox
 
     // Fetch projects by status from Firebase
     const fetchProjectsByStatus = async (status) => {
@@ -47,13 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
         
-        //const project = document.getElementById("project").value;
         const date = document.getElementById("date").value;
         const startHour = startHourInput.value;
         const endHour = endHourInput.value;
         const breakTime = parseInt(breakTimeInput.value, 10);
         const typeOfHour = document.getElementById("type-of-hour").value;
         const projectData = document.getElementById("project").value;
+
+        // Capture transport assistance checkbox value
+        const transportAssistance = transportAssistanceCheckbox.checked ? "Yes" : "No";
 
         if (!startHour || !endHour) {
             alert("Please enter start and end times.");
@@ -78,16 +81,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const hoursData = {
             userName: currentUser.name,
-            company:projectInfo.company,
-            client:projectInfo.client,
-            project:projectInfo.project,
+            company: projectInfo.company,
+            client: projectInfo.client,
+            project: projectInfo.project,
             date,
             startHour,
             endHour,
             breakTime,
             typeOfHour,
-            hoursWorked: hoursWorked.toFixed(2)
+            hoursWorked: hoursWorked.toFixed(2),
+            transportAssistance  // New field added to data
         };
+
         console.log(hoursData);
 
         try {
@@ -101,15 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function splitProjectValue(projectValue) {
-        // Split the string by ' - ' to separate the project from the address
         const [nameAndCompany, address] = projectValue.split(' - ');
-        // Further split nameAndCompany by '/' to separate name and company
         const [name, company] = nameAndCompany.split('/');
         
         return {
-            company: name,       // project.name as company
-            client: company,     // project.company as client
-            project: address   // project.address as project
+            company: name,
+            client: company,
+            project: address
        };
     };    
 

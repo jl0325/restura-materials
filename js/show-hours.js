@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${record.endHour}</td>
                 <td>${record.breakTime}</td>
                 <td>${record.hoursWorked}</td>
+                <td>${record.transportAssistance}</td>
             `;
 
             tableBody.appendChild(row);
