@@ -93,8 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
             transportAssistance  // New field added to data
         };
 
-        console.log(hoursData);
-
         try {
             await database.ref("hours").push(hoursData);
             alert("Hours registered successfully!");
