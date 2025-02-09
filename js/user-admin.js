@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <td>${userData.name}</td>
                     <td>${userData.email}</td>
                     <td>${userData.phone}</td>
+                    <td>${userData.rate}</td> <!-- Display rate -->
                     <td>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="admin-toggle-${userId}" ${userData.admin ? 'checked' : ''} 
@@ -32,20 +33,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Add a new user
-    async function addUser(name, email, phone) {
+    async function addUser(name, email, phone, rate) {
         const newUserRef = database.ref('users').push();
-        await newUserRef.set({ name, email, phone, admin: 0 });
+        await newUserRef.set({ name, email, phone, rate, admin: 0 });
         alert('User added successfully!');
         fetchUsers();
     }
 
     // Edit an existing user
     window.editUser = async function (userId) {
-        const name = prompt('Enter new name:');
-        const phone = prompt('Enter new phone:');
+        const userSnapshot = await database.ref(`users/${userId}`).once('value');
+        const userData = userSnapshot.val();
 
-        if (name && email && phone) {
-            await database.ref(`users/${userId}`).update({ name, email, phone });
+        // Show a form with the current values filled in
+        const name = prompt('Enter new name:', userData.name);
+        const email = prompt('Enter new email:', userData.email);
+        const phone = prompt('Enter new phone:', userData.phone);
+        const rate = prompt('Enter new rate:', userData.rate);
+
+        if (name && email && phone && rate) {
+            await database.ref(`users/${userId}`).update({ name, email, phone, rate });
             alert('User updated successfully!');
             fetchUsers();
         } else {

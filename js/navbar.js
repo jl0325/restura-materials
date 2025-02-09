@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         Admin
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                        <li><a class="dropdown-item" href="admin-hours.html">Hours</a></li>
                         <li><a class="dropdown-item" href="admin-materials.html">Materials</a></li>
                         <li><a class="dropdown-item" href="admin-user.html">Users</a></li>
                         <li><a class="dropdown-item" href="companies.html">Companies</a></li>
