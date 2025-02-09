@@ -31,15 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
     }
-
-    // Add a new user
-    async function addUser(name, email, phone, rate) {
-        const newUserRef = database.ref('users').push();
-        await newUserRef.set({ name, email, phone, rate, admin: 0 });
-        alert('User added successfully!');
-        fetchUsers();
-    }
-
+    
     // Edit an existing user
     window.editUser = async function (userId) {
         const userSnapshot = await database.ref(`users/${userId}`).once('value');

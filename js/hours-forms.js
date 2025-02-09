@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const projectData = document.getElementById("project").value;
 
         // Capture transport assistance checkbox value
-        const transportAssistance = transportAssistanceCheckbox.checked ? "Yes" : "No";
+        const transportAssistance = transportAssistanceCheckbox.checked ? 1 : 0;
 
         if (!startHour || !endHour) {
             alert("Please enter start and end times.");
