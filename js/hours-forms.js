@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const endHourInput = document.getElementById("end-hour");
     const breakTimeInput = document.getElementById("break-time");
     const transportAssistanceCheckbox = document.getElementById("transport-assistance");  // New checkbox
+    const overTimeCheckbox = document.getElementById("over-time");  // New checkbox
 
     // Fetch projects by status from Firebase
     const fetchProjectsByStatus = async (status) => {
@@ -57,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Capture transport assistance checkbox value
         const transportAssistance = transportAssistanceCheckbox.checked ? 1 : 0;
+        const overTime =  overTimeCheckbox.checked ? 1 : 0;
 
         if (!startHour || !endHour) {
             alert("Please enter start and end times.");
@@ -90,7 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
             breakTime,
             typeOfHour,
             hoursWorked: hoursWorked.toFixed(2),
-            transportAssistance  // New field added to data
+            transportAssistance,  // New field added to data
+            overTime
         };
 
         try {

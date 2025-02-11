@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <td>${userData.email}</td>
                     <td>${userData.phone}</td>
                     <td>${userData.rate}</td> <!-- Display rate -->
+                    <td>${userData.rateTweek}</td> <!-- Display rate -->
                     <td>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="admin-toggle-${userId}" ${userData.admin ? 'checked' : ''} 
@@ -42,9 +43,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const email = prompt('Enter new email:', userData.email);
         const phone = prompt('Enter new phone:', userData.phone);
         const rate = prompt('Enter new rate:', userData.rate);
+        const rateTweek = prompt('Enter new rate:', userData.rateTweek);
 
         if (name && email && phone && rate) {
-            await database.ref(`users/${userId}`).update({ name, email, phone, rate });
+            await database.ref(`users/${userId}`).update({ name, email, phone, rate, rateTweek });
             alert('User updated successfully!');
             fetchUsers();
         } else {

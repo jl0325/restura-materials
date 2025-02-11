@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${record.breakTime}</td>
                 <td>${record.hoursWorked}</td>
                 <td>${record.transportAssistance}</td>
+                <td>${record.overTime}</td>
                 <td>
                     <button class="btn btn-danger btn-sm delete-btn" data-id="${record.id}">Delete</button>
                 </td>
