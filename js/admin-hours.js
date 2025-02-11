@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const user = childSnapshot.val();
                 userRate = user.rate || 0; // Default to 0 if no rate is defined
                 userRateTweek = user.rateTweek || 0; // Default to 0 if no rate is defined
+                userGst = user.gst || 0; // Default to 0 if no rate is defined
             });
         });
     }
@@ -50,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let totalPerDay = 0;
             let totalTransportHours = 0;
             let totalAdditionals = 0;
+            let totalGst = 0;
+            let factureTotal = 0;
 
             snapshot.forEach(childSnapshot => {
                 const record = childSnapshot.val();
@@ -61,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            displayHours(filteredData, totalHours, totalTransport, totalPerDay, userName, totalTransportHours, totalAdditionals );
+            displayHours(filteredData, totalHours, totalTransport, totalPerDay, userName, totalTransportHours, totalAdditionals, totalGst, factureTotal );
         });
     }
 
@@ -78,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function displayHours(data, totalHours, totalTransport, totalPerDay, userName, totalTransportHours, totalAdditionals) {
+    function displayHours(data, totalHours, totalTransport, totalPerDay, userName, totalTransportHours, totalAdditionals, totalGst, factureTotal) {
         // Clear the existing table data
         tableBody.innerHTML = '';
         
@@ -110,6 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalTransportHours += transportAssistanceHour;
                 totalTransport += transportTotal;
                 totalPerDay += dayTotal;
+                const gst = (userGst == 1) ? (dayTotal + transportTotal + additionalPrice) * 0.1 : 0;
+                totalGst += gst;
+
+                
+                factureTotal += dayTotal + transportTotal + totalAdditionals + totalGst;
         
                 row.innerHTML = ` 
                     <td>${record.date}</td>
@@ -124,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${transportTotal}</td>
                     <td>${record.additionals !== undefined ? record.additionals : 'N/A'}</td>
                     <td>${additionalPrice}</td>
+                    <td>${gst}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -138,18 +147,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print']  // Enable export buttons
             });
         }
-        // Add the total row after data update
-        const totalRow = document.createElement('tr');
-        totalRow.style.fontWeight = 'bold';
-        totalRow.innerHTML = ` 
-            <td colspan="6" class="text-end">Totals</td>
+        // Add the subtotal row after data update
+        const subtotalRow = document.createElement('tr');
+        subtotalRow.style.fontWeight = 'bold';
+        subtotalRow.innerHTML = ` 
+            <td colspan="6" class="text-end">SubTotals</td>
             <td>${totalHours}</td>
             <td>${totalPerDay.toFixed(2)}</td>
             <td>${totalTransportHours}</td> 
             <td>${totalTransport}</td>
             <td></td>
             <td>${totalAdditionals}</td>
-            
+            <td>${totalGst}</td>
+        `;
+        tableBody.appendChild(subtotalRow);3
+
+        
+        // Add the subtotal row after data update
+        const totalRow = document.createElement('tr');
+        totalRow.style.fontWeight = 'bold';
+        totalRow.innerHTML = ` 
+            <td colspan="6" style="background-color: black; color: white;" >Total</td>
+            <td colspan="7" style="text-align: center; color: black; background-color: lightyellow;">${factureTotal}</td>
+
         `;
         tableBody.appendChild(totalRow);
     }
