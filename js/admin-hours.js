@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalTransportHours += transportAssistanceHour;
                 totalTransport += transportTotal;
                 totalPerDay += dayTotal;
-                const gst = (userGst == 1) ? (dayTotal + transportTotal + additionalPrice) * 0.1 : 0;
+                const gst = (userGst == 1) ? (dayTotal + transportTotal) * 0.1 : 0;
                 totalGst += gst;
 
                 
