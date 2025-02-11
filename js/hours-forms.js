@@ -7,14 +7,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const startHourInput = document.getElementById("start-hour");
     const endHourInput = document.getElementById("end-hour");
     const breakTimeInput = document.getElementById("break-time");
-    const transportAssistanceCheckbox = document.getElementById("transport-assistance");  // New checkbox
-    const overTimeCheckbox = document.getElementById("over-time");  // New checkbox
+    const transportAssistanceCheckbox = document.getElementById("transport-assistance");
+    const overTimeCheckbox = document.getElementById("over-time");
+    
+    // New Additionals Selector & Additional Price Input
+    const additionalsSelect = document.getElementById("additionals");
+    const additionalPriceInput = document.getElementById("additional-price");
 
     // Fetch projects by status from Firebase
     const fetchProjectsByStatus = async (status) => {
         try {
             projectSelect.innerHTML = '<option value="" disabled selected>Select Project</option>';
-            projectIdMap = {}; // Reset project ID map
+            projectIdMap = {};
             const snapshot = await database.ref('projects').orderByChild('status').equalTo(status).once('value');
             const projects = snapshot.val();
 
@@ -23,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const option = document.createElement('option');
                     option.value = `${project.name}/${project.company} - ${project.address}`;
                     option.textContent = `${project.name}/${project.company} - ${project.address}`;
-                    projectIdMap[id] = project; // Map project ID to details
+                    projectIdMap[id] = project;
                     projectSelect.appendChild(option);
                 });
             } else {
@@ -56,9 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const typeOfHour = document.getElementById("type-of-hour").value;
         const projectData = document.getElementById("project").value;
 
-        // Capture transport assistance checkbox value
         const transportAssistance = transportAssistanceCheckbox.checked ? 1 : 0;
-        const overTime =  overTimeCheckbox.checked ? 1 : 0;
+        const overTime = overTimeCheckbox.checked ? 1 : 0;
+
+        // Capture Additionals and Additional Price
+        const additionals = additionalsSelect.value;
+        const additionalPrice = parseFloat(additionalPriceInput.value) || 0;
 
         if (!startHour || !endHour) {
             alert("Please enter start and end times.");
@@ -92,8 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
             breakTime,
             typeOfHour,
             hoursWorked: hoursWorked.toFixed(2),
-            transportAssistance,  // New field added to data
-            overTime
+            transportAssistance,
+            overTime,
+            additionals, // New field
+            additionalPrice // New field
         };
 
         try {
@@ -114,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
             company: name,
             client: company,
             project: address
-       };
+        };
     };    
-
 });

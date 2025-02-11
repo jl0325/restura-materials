@@ -15,6 +15,18 @@
     <script defer src="js/auth.js"></script>
     <script defer src="js/hours-forms.js"></script>
     <script defer src="js/navbar.js"></script>
+    <style>
+        @media (max-width: 768px) {
+            .row.g-3 .col-md-4, .row.g-3 .col-md-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            .btn {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -81,19 +93,31 @@
                             <option value="Glass Polishing">Glass Polishing</option>
                         </select>
                     </div>
-                    <!-- Transport Assistance Toggle -->
                     <div class="col-md-4">
                         <label for="transport-assistance" class="form-label">Transport Assistance</label>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="transport-assistance">
                         </div>
                     </div>
-                    <!-- Transport Assistance Toggle -->
                     <div class="col-md-4">
                         <label for="over-time" class="form-label">Over Time</label>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="over-time">
                         </div>
+                    </div>
+                </div>
+                <div class="row g-3 mt-3">
+                    <div class="col-md-6">
+                        <label for="additionals" class="form-label">Additionals</label>
+                        <select id="additionals" class="form-select">
+                            <option value="">None</option>
+                            <option value="Delivery">Delivery Request</option>
+                            <option value="Transport">Transport Request (Uber, Didi)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="additional-price" class="form-label">Additional Price ($)</label>
+                        <input type="number" id="additional-price" class="form-control" step="0.01" min="0" placeholder="Enter amount">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mt-4">Submit</button>
@@ -104,8 +128,6 @@
         <p class="mb-0">&copy; 2025 Restaura Materials. All rights reserved.</p>
     </footer>
 </body>
-
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         function adjustTime(input) {
@@ -113,22 +135,14 @@
                 let time = input.value;
                 if (time) {
                     let [hours, minutes] = time.split(":").map(Number);
-                    
-                    if (minutes > 30) {
-                        minutes = 0;
-                        hours = (hours + 1) % 24; // Move to next hour if over 30 mins
-                    } else if (minutes > 0) {
-                        minutes = 30; // Round up to 30 mins if between 1 and 30
-                    }
-    
+                    minutes = minutes > 30 ? 0 : 30;
+                    if (minutes === 0) hours = (hours + 1) % 24;
                     input.value = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
                 }
             });
         }
-    
         adjustTime(document.getElementById("start-hour"));
         adjustTime(document.getElementById("end-hour"));
     });
-    </script>
-
+</script>
 </html>

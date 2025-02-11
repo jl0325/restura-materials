@@ -19,20 +19,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to fetch and filter hours (only for the logged-in user)
     function fetchHours(startDate, endDate) {
-        hoursRef.orderByChild('date').startAt(startDate).endAt(endDate).on('value', (snapshot) => {
-            let filteredData = [];
+        hoursRef.off('value'); // Prevent duplicate listeners
 
-            snapshot.forEach(childSnapshot => {
-                const record = childSnapshot.val();
-                const recordId = childSnapshot.key; // Get the unique ID of the record
-                // Only show data for the current logged-in user
-                if (record.userName === currentUser.name) {
-                    filteredData.push({ ...record, id: recordId });
-                }
+        hoursRef.orderByChild('date').startAt(startDate).endAt(endDate).once('value')
+            .then((snapshot) => {
+                let filteredData = [];
+
+                snapshot.forEach(childSnapshot => {
+                    const record = childSnapshot.val();
+                    const recordId = childSnapshot.key;
+
+                    // Only show data for the logged-in user
+                    if (record.userName === currentUser.name) {
+                        filteredData.push({ ...record, id: recordId });
+                    }
+                });
+
+                displayHours(filteredData);
+            })
+            .catch(error => {
+                console.error("Error fetching data: ", error);
+                alert("An error occurred while retrieving data.");
             });
-
-            displayHours(filteredData);
-        });
     }
 
     // Event listener for filtering
@@ -50,34 +58,39 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayHours(data) {
         tableBody.innerHTML = ''; // Clear previous rows
 
-        data.forEach(record => {
-            const row = document.createElement('tr');
-
-            // Apply background color based on typeOfHour
-            row.style.backgroundColor = (record.typeOfHour === "Glass Polishing") ? "lightblue" : "white";
-
-            row.innerHTML = `
-                <td>${record.date}</td>
-                <td>${record.company}</td>
-                <td>${record.client}</td>
-                <td>${record.project}</td>
-                <td>${record.startHour}</td>
-                <td>${record.endHour}</td>
-                <td>${record.breakTime}</td>
-                <td>${record.hoursWorked}</td>
-                <td>${record.transportAssistance}</td>
-                <td>${record.overTime}</td>
-                <td>
-                    <button class="btn btn-danger btn-sm delete-btn" data-id="${record.id}">Delete</button>
-                </td>
-            `;
-
-            tableBody.appendChild(row);
-        });
-
-        // Initialize DataTable with new data
+        // Reinitialize DataTable
         if ($.fn.dataTable.isDataTable('#admin-hours-table')) {
             $('#admin-hours-table').DataTable().clear().destroy();
+        }
+
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="12" class="text-center">No records found</td></tr>';
+        } else {
+            data.forEach(record => {
+                const row = document.createElement('tr');
+
+                // Apply background color based on typeOfHour
+                row.style.backgroundColor = (record.typeOfHour === "Glass Polishing") ? "lightblue" : "white";
+
+                row.innerHTML = `
+                    <td>${record.date}</td>
+                    <td>${record.company}</td>
+                    <td>${record.client}</td>
+                    <td>${record.project}</td>
+                    <td>${record.startHour}</td>
+                    <td>${record.endHour}</td>
+                    <td>${record.breakTime}</td>
+                    <td>${record.hoursWorked}</td>
+                    <td>${record.transportAssistance}</td>
+                    <td>${record.overTime}</td>
+                    <td>${record.additionals ? record.additionals : "N/A"}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="${record.id}">Delete</button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
         }
 
         $('#admin-hours-table').DataTable({
@@ -86,8 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Add event listeners to delete buttons
-        const deleteButtons = document.querySelectorAll('.delete-btn');
-        deleteButtons.forEach(button => {
+        document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const recordId = e.target.getAttribute('data-id');
                 deleteRecord(recordId);
@@ -102,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             hoursRef.child(recordId).remove()
                 .then(() => {
                     alert('Record deleted successfully.');
-                    window.location.reload(); // Reload the page to reflect the changes
+                    filterButton.click(); // Re-fetch filtered data instead of reloading
                 })
                 .catch(error => {
                     console.error("Error deleting record: ", error);
@@ -110,5 +122,4 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         }
     }
-
 });

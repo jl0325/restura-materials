@@ -38,50 +38,53 @@
             background-color: #eef2f7;
             font-family: Arial, sans-serif;
         }
-        
+
         .container {
             max-width: 95%;
         }
-        
+
         h2 {
             font-weight: bold;
             color: #333;
+            text-align: center;
         }
-        
+
         #admin-hours-table {
             background: #ffffff;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            width: 100%;
         }
-        
+
         th, td {
             text-align: center;
             vertical-align: middle;
             padding: 12px;
+            word-wrap: break-word;
         }
-        
+
         th {
             background-color: #0056b3;
             color: white;
             font-weight: bold;
         }
-        
+
         tbody tr:hover {
             background-color: rgba(0, 123, 255, 0.15);
         }
-        
+
         .table-responsive {
             border-radius: 10px;
-            overflow: hidden;
+            overflow-x: auto;
         }
-        
+
         /* Input and button styling */
         input[type="date"], #filterButton {
             height: 45px;
             font-size: 16px;
         }
-        
+
         #filterButton {
             background-color: #007bff;
             border: none;
@@ -89,22 +92,56 @@
             font-weight: bold;
             transition: 0.3s;
         }
-        
+
         #filterButton:hover {
             background-color: #0056b3;
         }
-        
+
         /* Mobile adjustments */
         @media (max-width: 768px) {
             .table-responsive {
                 overflow-x: auto;
             }
+
             th, td {
                 font-size: 14px;
                 padding: 8px;
             }
+
+            .form-label {
+                font-size: 14px;
+            }
+
+            #filterButton {
+                font-size: 14px;
+                height: 40px;
+            }
         }
-        
+
+        /* Extra small screen adjustments */
+        @media (max-width: 576px) {
+            th, td {
+                font-size: 12px;
+                padding: 6px;
+            }
+
+            #weekStart, #weekEnd {
+                font-size: 14px;
+                height: 38px;
+            }
+
+            #filterButton {
+                font-size: 13px;
+                height: 36px;
+            }
+
+            /* Hide some less relevant columns on very small screens */
+            td:nth-child(5), th:nth-child(5),
+            td:nth-child(6), th:nth-child(6),
+            td:nth-child(7), th:nth-child(7) {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -127,41 +164,39 @@
     </header>
 
     <div class="container mt-4">
-        <h2 class="text-center mb-4">Hours Report</h2>
-        <h5>
-            Welcome, <span id="user-name"></span>!
-        </h5>
-        <p class="mb-4">
-            Please select both the start and end dates to filter your reported hours.
-        </p>
+        <h2>Hours Report</h2>
+        <h5>Welcome, <span id="user-name"></span>!</h5>
+        <p class="mb-4">Please select both the start and end dates to filter your reported hours.</p>
+        
         <div class="row g-3">
-            <div class="col-md-4">
+            <div class="col-sm-6 col-md-4">
                 <label for="weekStart" class="form-label">Start Date:</label>
                 <input type="date" id="weekStart" class="form-control" required>
             </div>
-            <div class="col-md-4">
+            <div class="col-sm-6 col-md-4">
                 <label for="weekEnd" class="form-label">End Date:</label>
                 <input type="date" id="weekEnd" class="form-control" required>
             </div>
-            <div class="col-md-4 d-flex align-items-end">
-                <button id="filterButton" class="btn btn-primary w-100">Filter Hours</button>
+            <div class="col-sm-12 col-md-4 d-flex align-items-end">
+                <button id="filterButton" class="btn btn-primary w-100 btn-sm">Filter Hours</button>
             </div>
         </div>
 
         <div class="table-responsive mt-4">
-            <table id="admin-hours-table"  class="table table-hover table-bordered align-middle">
+            <table id="admin-hours-table" class="table table-hover table-bordered align-middle">
                 <thead class="table-dark">
                     <tr>
                         <th>Date</th>
                         <th>Company</th>
                         <th>Client</th>
                         <th>Project</th>
-                        <th>Start Hour</th>
-                        <th>End Hour</th>
-                        <th>Break Hour</th>
-                        <th>Worked Hoours</th>
-                        <th>T.A.</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Break</th>
+                        <th>Worked Hours</th>
+                        <th>T.Assistance</th>
                         <th>O. Time</th>
+                        <th>Aditionals</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
