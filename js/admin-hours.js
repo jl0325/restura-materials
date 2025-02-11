@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             snapshot.forEach(childSnapshot => {
                 const user = childSnapshot.val();
                 userRate = user.rate || 0; // Default to 0 if no rate is defined
+                userRateTweek = user.rateTweek || 0; // Default to 0 if no rate is defined
             });
         });
     }
@@ -47,6 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let totalHours = 0;
             let totalTransport = 0;
             let totalPerDay = 0;
+            let totalTransportHours = 0;
+            let totalAdditionals = 0;
 
             snapshot.forEach(childSnapshot => {
                 const record = childSnapshot.val();
@@ -58,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            displayHours(filteredData, totalHours, totalTransport, totalPerDay, userName);
+            displayHours(filteredData, totalHours, totalTransport, totalPerDay, userName, totalTransportHours, totalAdditionals );
         });
     }
 
@@ -75,61 +78,78 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function displayHours(data, totalHours, totalTransport, totalPerDay, userName) {
+    function displayHours(data, totalHours, totalTransport, totalPerDay, userName, totalTransportHours, totalAdditionals) {
         // Clear the existing table data
         tableBody.innerHTML = '';
-        // Reinitialize DataTable only after the data update triggered by the filter button
-        if ($.fn.dataTable.isDataTable('#admin-hours-table')) {
-            dataTable.clear().destroy();
-        }
+        
+        // Check if there's data available
         if (data.length === 0) {
-            // If there's no data, show a message in the table
+            // If no data, show "No data available" in a row
             const row = document.createElement('tr');
-            row.innerHTML = '<td colspan="11" class="text-center">No data available</td>';
+            row.innerHTML = '<td colspan="10" class="text-center">No data available</td>';  // Adjusted to 10 columns
             tableBody.appendChild(row);
+        } else {
+            // Reinitialize DataTable only after the data update triggered by the filter button
+            if ($.fn.dataTable.isDataTable('#admin-hours-table')) {
+                // Check if dataTable exists and is initialized before calling clear and destroy
+                if (dataTable) {
+                    dataTable.clear().destroy();
+                }
+            }
+            data.forEach(record => {
+                const row = document.createElement('tr');
+                row.style.backgroundColor = (record.typeOfHour === "Glass Polishing") ? "lightblue" : "white";
+                 // Select the rate based on the company
+                let rateToUse = (record.company == "Restaura") ? userRate : userRateTweek;
+                const transportAssistanceHour = (record.transportAssistance)? record.transportAssistance : 0;
+                // Calculate totals using the selected rate
+                const dayTotal = rateToUse * parseFloat(record.hoursWorked);
+                const transportTotal = rateToUse * parseFloat(transportAssistanceHour);
+                const additionalPrice = (record.additionalPrice)? record.additionalPrice : 0;
+                totalAdditionals += additionalPrice;
+                totalTransportHours += transportAssistanceHour;
+                totalTransport += transportTotal;
+                totalPerDay += dayTotal;
+        
+                row.innerHTML = ` 
+                    <td>${record.date}</td>
+                    <td>${record.company}</td>
+                    <td>${record.client} - ${record.project}</td>
+                    <td>${record.startHour}</td>
+                    <td>${record.endHour}</td>
+                    <td>${record.breakTime}</td>
+                    <td>${record.hoursWorked}</td>
+                    <td>${dayTotal.toFixed(2)}</td>
+                    <td>${record.transportAssistance}</td>
+                    <td>${transportTotal}</td>
+                    <td>${record.additionals !== undefined ? record.additionals : 'N/A'}</td>
+                    <td>${additionalPrice}</td>
+                `;
+
+                tableBody.appendChild(row);
+            });
         }
-    
-        data.forEach(record => {
-            const row = document.createElement('tr');
-            row.style.backgroundColor = (record.typeOfHour === "Glass Polishing") ? "lightblue" : "white";
-            
-            // Calculate totals and append rows
-            const dayTotal = userRate * parseFloat(record.hoursWorked);
-            const transportTotal = userRate * parseFloat(record.transportAssistance);
-    
-            totalTransport += transportTotal;
-            totalPerDay += dayTotal;
-    
-            row.innerHTML = ` 
-                <td>${record.date}</td>
-                <td>${record.company}</td>
-                <td>${record.client} - ${record.project}</td>
-                <td>${record.startHour}</td>
-                <td>${record.endHour}</td>
-                <td>${record.breakTime}</td>
-                <td>${record.hoursWorked}</td>
-                <td>${dayTotal.toFixed(2)}</td>
-                <td>${record.transportAssistance}</td>
-                <td>${transportTotal}</td>
-            `;
-            tableBody.appendChild(row);
-        });
-    
-        dataTable = $('#admin-hours-table').DataTable({
-            dom: 'Bfrtip',
-            searching: false,  // Hide search bar
-            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']  // Enable export buttons
-        });
-    
+        
+        if ($.fn.dataTable.isDataTable('#admin-hours-table')) {
+            // Initialize the DataTable again after clearing old data
+            dataTable = $('#admin-hours-table').DataTable({
+                dom: 'Bfrtip',
+                searching: false,  // Hide search bar
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print']  // Enable export buttons
+            });
+        }
         // Add the total row after data update
         const totalRow = document.createElement('tr');
         totalRow.style.fontWeight = 'bold';
         totalRow.innerHTML = ` 
-            <td colspan="6" class="text-end">Total</td>
+            <td colspan="6" class="text-end">Totals</td>
             <td>${totalHours}</td>
             <td>${totalPerDay.toFixed(2)}</td>
-            <td></td>
+            <td>${totalTransportHours}</td> 
             <td>${totalTransport}</td>
+            <td></td>
+            <td>${totalAdditionals}</td>
+            
         `;
         tableBody.appendChild(totalRow);
     }
