@@ -24,6 +24,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                     </td>
                     <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="gst-toggle-${userId}" ${userData.gst ? 'checked' : ''} 
+                                   onchange="toggleGST('${userId}', this.checked)">
+                        </div>
+                    </td>
+                    <td>
                         <button class="btn btn-primary btn-sm" onclick="editUser('${userId}')">Edit</button>
                         <button class="btn btn-danger btn-sm" onclick="deleteUser('${userId}')">Delete</button>
                     </td>
@@ -32,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
     }
-    
+
     // Edit an existing user
     window.editUser = async function (userId) {
         const userSnapshot = await database.ref(`users/${userId}`).once('value');
@@ -71,6 +77,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) {
             console.error('Error updating admin status:', error);
             alert('Failed to update admin status. Please try again.');
+        }
+    };
+
+    // Toggle GST status
+    window.toggleGST = async function (userId, hasGST) {
+        try {
+            await database.ref(`users/${userId}`).update({ gst: hasGST ? 1 : 0 });
+            alert(`User GST status updated to ${hasGST ? 'GST Enabled' : 'GST Disabled'}`);
+        } catch (error) {
+            console.error('Error updating GST status:', error);
+            alert('Failed to update GST status. Please try again.');
         }
     };
 

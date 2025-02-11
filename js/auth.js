@@ -95,7 +95,8 @@ document.getElementById('signup-form')?.addEventListener('submit', async (e) => 
             phone,
             email,
             password,
-            admin: 0
+            admin: 0,
+            gst: 0
         });
 
         alert('Account created successfully!');
