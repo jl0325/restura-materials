@@ -128,21 +128,4 @@
         <p class="mb-0">&copy; 2025 Restaura Materials. All rights reserved.</p>
     </footer>
 </body>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        function adjustTime(input) {
-            input.addEventListener("change", function () {
-                let time = input.value;
-                if (time) {
-                    let [hours, minutes] = time.split(":").map(Number);
-                    minutes = minutes > 30 ? 0 : 30;
-                    if (minutes === 0) hours = (hours + 1) % 24;
-                    input.value = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
-                }
-            });
-        }
-        adjustTime(document.getElementById("start-hour"));
-        adjustTime(document.getElementById("end-hour"));
-    });
-</script>
 </html>
