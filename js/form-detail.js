@@ -36,14 +36,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 /**
- * Populates the project details section with data.
+ * Populates the project details section with updated title and project info.
  * @param {Object} projectData - The project data object.
  */
 function populateProjectDetails(projectData) {
-    document.getElementById('client').textContent = projectData.client || 'N/A';
-    document.getElementById('company').textContent = projectData.company || 'N/A';
-    document.getElementById('date').textContent = projectData.date || 'N/A';
+    // Set the title with client data and company
+    document.getElementById('project-title').textContent = `${projectData.client || 'N/A'} - ${projectData.company || 'N/A'}`;
+
+    // Populate project details (project and date)
     document.getElementById('project').textContent = projectData.project || 'N/A';
+    document.getElementById('date').textContent = projectData.date || 'N/A';
 }
 
 /**
@@ -85,7 +87,7 @@ function populateMaterialsTable(materials, isAdmin, projectId) {
         // Apply background color if MaterialType is "Provided By Tweek"
         if (material.materialType == "Provided By Tweek") {
             row.style.backgroundColor = "khaki";
-        }else{
+        } else {
             row.style.backgroundColor = "white";
         }
 
@@ -93,6 +95,7 @@ function populateMaterialsTable(materials, isAdmin, projectId) {
         const cells = [
             createTableCell(name),
         ];
+
         // Add additional columns for admins
         if (isAdmin) {
             cells.push(createEditableQuantityCell(material.quantity, index, projectId));

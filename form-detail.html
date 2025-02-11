@@ -134,35 +134,36 @@
                 <i class="fas fa-print"></i> Print
             </button>
         </div>
-
         <!-- Project Details Section -->
         <section id="project-details" class="mb-4">
-            <h3 class="mb-3" style="text-align: left;">Project Materials Summary</h3>
+            <!-- Table with project and date -->
             <div class="table-responsive">
                 <table class="table table-bordered table-striped text-center">
-                    <tbody>
+                    <thead>
                         <tr>
-                            <th class="bg-dark text-white">Client</th>
-                            <td id="client"></td>
-                            <th class="bg-dark text-white">Company</th>
-                            <td id="company"></td>
+                            <th colspan="2" class="bg-dark text-white">
+                                <h3 class="mb-0" style="text-align: center;" id="project-title"></h3>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="bg-dark text-white">Project</th>
+                            <td id="project"></td>
                         </tr>
                         <tr>
                             <th class="bg-dark text-white">Date</th>
                             <td id="date"></td>
-                            <th class="bg-dark text-white">Project</th>
-                            <td id="project"></td>
                         </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Content rows will be injected here dynamically -->
                     </tbody>
                 </table>
             </div>
         </section>
 
-
-
         <!-- Materials List Section -->
         <section id="materials-section">
-            <h2 class="mt-4 mb-3">Materials</h2>
+            <h4 class="mt-4 mb-3">Materials</h4>
             <div class="table-responsive">
                 <table class="table table-hover table-bordered align-middle">
                     <thead id="materials-head" class="table-dark">

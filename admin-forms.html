@@ -75,16 +75,29 @@
     <main class="container mt-4">
         <section class="bg-white p-4 rounded shadow">
             <h2 class="text-center mb-4">Materials Report</h2>
+
+            <!-- Date filter section -->
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="weekStart" class="form-label">Start Date</label>
+                    <input type="date" id="weekStart" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label for="weekEnd" class="form-label">End Date</label>
+                    <input type="date" id="weekEnd" class="form-control">
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button id="filterBtn" class="btn btn-primary w-100">Filter</button>
+                </div>
+            </div>
             
             <!-- Responsive Table -->
             <div class="table-responsive">
                 <table id="projects-table" class="table table-hover table-bordered align-middle">
                     <thead class="table-dark">
                         <tr>
-                            <th>Creation Date</th>
                             <th>Date</th>
                             <th>Company</th>
-                            <th>Client</th>
                             <th>Project</th>
                             <th>Worker</th>
                             <th>Actions</th>

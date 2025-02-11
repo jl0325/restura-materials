@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectsTableBody = document.querySelector('#projects-table tbody');
     const currentUser = getCurrentUser();
 
+    const weekStartInput = document.getElementById('weekStart');
+    const weekEndInput = document.getElementById('weekEnd');
+    const filterBtn = document.getElementById('filterBtn');
+
     // Check if the user is logged in and is an admin
     if (!currentUser) {
         alert('You need to log in first.');
@@ -11,58 +15,68 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Fetch and display project materials based on user role
-    if (currentUser.admin === 1) {
-        // Admin: Show all projects ordered by timestamp (latest to oldest)
-        projectsRef.orderByChild('timestamp').on('value', (snapshot) => {
-            displayProjects(snapshot);
-        });
-    } else {
-        // Non-admin: Show only projects where userName matches current user's name, ordered by timestamp
-        projectsRef
-            .orderByChild('userName')
-            .equalTo(currentUser.name)
-            .on('value', (snapshot) => {
+    // Function to fetch and display filtered project materials
+    function fetchProjects(startDate, endDate) {
+        let query = projectsRef;
+        
+        if (startDate && endDate) {
+            // If dates are provided, filter projects within the date range
+            query = query.orderByChild('date').startAt(startDate).endAt(endDate);
+        }
+
+        if (currentUser.admin === 1) {
+            // Admin: Show all projects based on the date filter
+            query.on('value', (snapshot) => {
                 displayProjects(snapshot);
             });
+        } else {
+            // Non-admin: Show only projects where userName matches current user's name
+            query
+                .orderByChild('userName')
+                .equalTo(currentUser.name)
+                .on('value', (snapshot) => {
+                    displayProjects(snapshot);
+                });
+        }
     }
 
+    // Event listener for filter button
+    filterBtn.addEventListener('click', () => {
+        const weekStart = weekStartInput.value;
+        const weekEnd = weekEndInput.value;
+
+        // Clear previous data in table
+        projectsTableBody.innerHTML = '';
+
+        if (weekStart && weekEnd) {
+            // Filter by date range if both dates are provided
+            fetchProjects(weekStart, weekEnd);
+        } else {
+            // If no dates are selected, fetch all projects
+            fetchProjects();
+        }
+    });
 
     // Function to render the project data into the table
     function displayProjects(snapshot) {
-        projectsTableBody.innerHTML = ''; // Clear existing rows
-
         const projects = snapshot.val();
 
         if (projects) {
-            // Convert object to array and sort by timestamp in descending order
-            const sortedProjects = Object.entries(projects)
-                .sort(([ , a], [ , b]) => new Date(b.timestamp) - new Date(a.timestamp));
-
-            sortedProjects.forEach(([key, project]) => {
+            Object.entries(projects).forEach(([key, project]) => {
                 const row = document.createElement('tr');
 
                 // Create cells for each field
-                const timestampCell = document.createElement('td');
-                const date = new Date(project.timestamp);
-                timestampCell.textContent = date.toLocaleString(); // Formats as readable date and time
-                row.appendChild(timestampCell);
-                
                 const dateCell = document.createElement('td');
                 dateCell.textContent = project.date;
                 row.appendChild(dateCell);
 
                 const companyCell = document.createElement('td');
-                companyCell.textContent = project.company;
+                companyCell.textContent = project.client;
                 row.appendChild(companyCell);
 
-                const clientCell = document.createElement('td');
-                clientCell.textContent = project.client;
-                row.appendChild(clientCell);
-
-                const projectCell = document.createElement('td');
-                projectCell.textContent = project.project;
-                row.appendChild(projectCell);
+                const clientProjectCell = document.createElement('td');
+                clientProjectCell.textContent = `${project.company} - ${project.project}`;
+                row.appendChild(clientProjectCell);
 
                 const userNameCell = document.createElement('td');
                 userNameCell.textContent = project.userName;
@@ -101,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const row = document.createElement('tr');
             const cell = document.createElement('td');
-            cell.colSpan = 7;
+            cell.colSpan = 6;
             cell.textContent = 'No projects available';
             row.appendChild(cell);
             projectsTableBody.appendChild(row);
