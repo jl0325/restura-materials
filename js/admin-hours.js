@@ -103,8 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             row.innerHTML = ` 
                 <td>${record.date}</td>
                 <td>${record.company}</td>
-                <td>${record.client}</td>
-                <td>${record.project}</td>
+                <td>${record.client} - ${record.project}</td>
                 <td>${record.startHour}</td>
                 <td>${record.endHour}</td>
                 <td>${record.breakTime}</td>
@@ -126,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalRow = document.createElement('tr');
         totalRow.style.fontWeight = 'bold';
         totalRow.innerHTML = ` 
-            <td colspan="7" class="text-end">Total</td>
+            <td colspan="6" class="text-end">Total</td>
             <td>${totalHours}</td>
             <td>${totalPerDay.toFixed(2)}</td>
             <td></td>
