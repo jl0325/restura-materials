@@ -101,6 +101,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th>Date</th>
+                            <th>Day</th>
                             <th>Company</th>
                             <th>Project</th>
                             <th>Start Hour</th>
@@ -124,9 +125,32 @@
             <!-- By Project Tab -->
             <div class="tab-pane fade" id="byProject" role="tabpanel" aria-labelledby="byProjectTab">
                 <!-- Add content here for the By Project tab (similar to the By Worker tab) -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="companyFilter">Select Company</label>
+                        <select id="companyFilter" class="form-control">
+                            <option value="Restaura">Restaura</option>
+                            <option value="Tweek">Tweek</option>
+                            <!-- Additional user options can be populated here -->
+                        </select>
+                    </div>                    
+                    <div class="col-md-3">
+                        <label for="projectStart">Start Date</label>
+                        <input type="date" id="projectStart" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="projectEnd">End Date</label>
+                        <input type="date" id="projectEnd" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>&nbsp;</label>
+                        <button id="filterProjectButton" class="btn btn-primary form-control">Filter</button>
+                    </div>
+                </div>
+                
+                <div id="admin-hours-project-container"></div>
             </div>
         </div>
-        
     </div>
 
     <!-- Footer -->
