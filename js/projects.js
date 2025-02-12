@@ -53,12 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Function to populate the client selector
+   // Function to populate the client selector with sorted company names
     function populateClients(snapshot) {
         projectClientSelect.innerHTML = '<option value="">Select a client</option>'; // Reset the dropdown
         const companies = snapshot.val();
         if (companies) {
-            Object.entries(companies).forEach(([key, company]) => {
+            const sortedCompanies = Object.values(companies).sort((a, b) => a.name.localeCompare(b.name));
+            sortedCompanies.forEach(company => {
                 const option = document.createElement('option');
                 option.value = company.name; // Use the company name as the value
                 option.textContent = company.name; // Display the company name
