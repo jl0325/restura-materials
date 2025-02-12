@@ -35,21 +35,25 @@ document.addEventListener('DOMContentLoaded', () => {
         materialTypeSelect.appendChild(option);
     });
 
-    // Fetch projects by status from Firebase
+    // Fetch projects by status from Firebase and sort by name
     const fetchProjectsByStatus = async (status) => {
         try {
             projectSelect.innerHTML = '<option value="" disabled selected>Select Project</option>';
             projectIdMap = {}; // Reset project ID map
-            
+
             const snapshot = await database.ref('projects').orderByChild('status').equalTo(status).once('value');
             const projects = snapshot.val();
 
             if (projects) {
-                Object.entries(projects).forEach(([id, project]) => {
+                const sortedProjects = Object.entries(projects)
+                    .map(([id, project]) => ({ id, ...project })) // Convert to array of objects
+                    .sort((a, b) => a.name.localeCompare(b.name)); // Sort by project name
+
+                sortedProjects.forEach(project => {
                     const option = document.createElement('option');
-                    option.value = id; // Store project ID as value
+                    option.value = project.id; // Store project ID as value
                     option.textContent = `${project.name}/${project.company} - ${project.address}`;
-                    projectIdMap[id] = project; // Map project ID to details
+                    projectIdMap[project.id] = project; // Map project ID to details
                     projectSelect.appendChild(option);
                 });
             } else {

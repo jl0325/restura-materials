@@ -14,20 +14,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const additionalsSelect = document.getElementById("additionals");
     const additionalPriceInput = document.getElementById("additional-price");
 
-    // Fetch projects by status from Firebase
+    // Fetch projects by status from Firebase and sort by name
     const fetchProjectsByStatus = async (status) => {
         try {
             projectSelect.innerHTML = '<option value="" disabled selected>Select Project</option>';
             projectIdMap = {};
+
             const snapshot = await database.ref('projects').orderByChild('status').equalTo(status).once('value');
             const projects = snapshot.val();
 
             if (projects) {
-                Object.entries(projects).forEach(([id, project]) => {
+                // Convert projects object into an array and sort by name
+                const sortedProjects = Object.values(projects).sort((a, b) => a.name.localeCompare(b.name));
+
+                sortedProjects.forEach(project => {
                     const option = document.createElement('option');
                     option.value = `${project.name}/${project.company} - ${project.address}`;
                     option.textContent = `${project.name}/${project.company} - ${project.address}`;
-                    projectIdMap[id] = project;
                     projectSelect.appendChild(option);
                 });
             } else {
