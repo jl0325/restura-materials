@@ -46,6 +46,7 @@ function populateProjectDetails(projectData) {
     // Populate project details (project and date)
     document.getElementById('project').textContent = projectData.project || 'N/A';
     document.getElementById('date').textContent = projectData.date || 'N/A';
+    document.getElementById('weekEnd').textContent = projectData.weekEnd || 'N/A';
 }
 
 /**

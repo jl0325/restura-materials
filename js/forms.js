@@ -155,10 +155,11 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         const date = document.getElementById('date').value;
+        const weekEnd = document.getElementById('weekEnd').value;
         const projectId = projectSelect.value;
         const projectDetails = projectIdMap[projectId];
 
-        if (!projectId || !date || !projectDetails || materialsArray.length === 0) {
+        if (!projectId || !date || !weekEnd  || !projectDetails || materialsArray.length === 0) {
             alert('All fields and at least one material are required.');
             return;
         }
@@ -173,6 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
             projectId,
             company: projectDetails.company,
             date,
+            weekEnd,
             project: projectDetails.address,
             client: projectDetails.name,
             materials: materialsArray,

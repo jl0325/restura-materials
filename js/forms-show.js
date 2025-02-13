@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (startDate && endDate) {
             // If dates are provided, filter projects within the date range
-            query = query.orderByChild('date').startAt(startDate).endAt(endDate);
+            query = query.orderByChild('weekEnd').startAt(startDate).endAt(endDate);
         }
 
         if (currentUser.admin === 1) {
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Create cells for each field
                 const dateCell = document.createElement('td');
-                dateCell.textContent = project.date;
+                dateCell.textContent = project.weekEnd;
                 row.appendChild(dateCell);
 
                 const companyCell = document.createElement('td');
