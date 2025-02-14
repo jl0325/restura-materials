@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${totalTransportHours}</td> 
                 <td>${totalTransport}</td>
                 <td></td>
-                <td>${totalAdditionals}</td>
+                <td style="text-align: center; color: black; background-color: #ADD8E6;">${totalAdditionals}</td>
                 <td>${totalGst}</td>
             `;
             tableBody.appendChild(subtotalRow);
@@ -238,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function displayHoursByProject(hoursByProject) {
         let container = document.querySelector("#admin-hours-project-container");
+        let companySelected = document.getElementById("companyFilter").value;
         container.innerHTML = "";
     
         Object.keys(hoursByProject).forEach((project) => {
@@ -253,10 +254,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     
             let tableHTML = `
-                <h3 class="mt-4">${client} - ${project}</h3>
                 <table class="table table-hover table-bordered align-middle">
-                    <thead class="table-dark">
-                        <tr>
+                    <thead>
+                        <tr style="background-color: ${companySelected == 'Restaura' ? 'rgba(201, 156, 69, 0.8)' : 'rgba(16, 230, 228, 0.8)'};">
+                            <th colSpan="8" class="text-center">${companySelected}/${client} - ${project}</th>
+                        </tr>
+                        <tr style="background-color: black; color: white;">
                             <th>Date</th>
                             <th>Day</th>
                             <th>User</th>
@@ -269,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </thead>
                     <tbody>
             `;
+
     
             projectEntries.forEach((entry) => {
                 // Get the day of the week from the date
