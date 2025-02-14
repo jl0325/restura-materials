@@ -108,8 +108,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const actionsCell = document.createElement('td');
                 actionsCell.className = 'text-center';
                 actionsCell.appendChild(createActionButton('Edit', 'btn-warning', 'fas fa-edit', () => editProject(key, project)));
-                actionsCell.appendChild(createActionButton('Delete', 'btn-danger', 'fas fa-trash-alt', () => confirmDelete(key)));
                 row.appendChild(actionsCell);
+
+
+                // Actions cell with edit and delete buttons
+                const deleteCell = document.createElement('td');
+                deleteCell.className = 'text-center';
+                deleteCell.appendChild(createActionButton('Delete', 'btn-danger', 'fas fa-trash-alt', () => confirmDelete(key)));
+                row.appendChild(deleteCell);
 
                 projectsTableBody.appendChild(row);
             });
