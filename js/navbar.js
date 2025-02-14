@@ -4,45 +4,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentUser = localStorage.getItem('currentUser');
 
     // Toggle Navbar for mobile view
-    toggleButton.addEventListener('click', () => {
-        navbarMenu.classList.toggle('open');
-    });
+    toggleButton.addEventListener('click', () => navbarMenu.classList.toggle('open'));
 
-    // Always visible links (except Logout)
-    const defaultLinks = `
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="hoursReportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Hour's Report
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="hoursReportDropdown">
-            <li><a class="dropdown-item" href="hours-form.html">Create Your Hours Report</a></li>
-            <li><a class="dropdown-item" href="show-hours.html">See Your Hours Report</a></li>
-        </ul>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="materialReportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Material's Report
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="materialReportDropdown">
-            <li><a class="dropdown-item" href="index.html">Create Your Materials Report</a></li>
-            <li><a class="dropdown-item" href="admin-forms.html">See Your Materials Report</a></li>
-        </ul>
-    </li>
-    <li class="nav-item"><a href="user-documents.html" class="nav-link">Documents</a></li>
-    <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
+    // Base navigation links
+    let navContent = `
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="hoursReportDropdown" role="button" data-bs-toggle="dropdown">
+                Hour's Report
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="hours-form.html">Create Your Hours Report</a></li>
+                <li><a class="dropdown-item" href="show-hours.html">See Your Hours Report</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="materialReportDropdown" role="button" data-bs-toggle="dropdown">
+                Material's Report
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="index.html">Create Your Materials Report</a></li>
+                <li><a class="dropdown-item" href="admin-forms.html">See Your Materials Report</a></li>
+            </ul>
+        </li>
+        <li class="nav-item"><a href="user-documents.html" class="nav-link">Documents</a></li>
+        <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
     `;
-    navbarMenu.insertAdjacentHTML('beforeend', defaultLinks);
 
     // Add admin-specific dropdown if the user is an admin
     if (currentUser) {
         const userData = JSON.parse(currentUser);
         if (userData.admin === 1) {
-            const adminDropdown = `
+            navContent += `
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
                         Admin
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="admin-hours.html">Hours</a></li>
                         <li><a class="dropdown-item" href="admin-materials.html">Materials</a></li>
                         <li><a class="dropdown-item" href="admin-user.html">Users</a></li>
@@ -50,13 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     </ul>
                 </li>
             `;
-            navbarMenu.insertAdjacentHTML('beforeend', adminDropdown);
         }
     }
+    // Append Logout option at the end (aligned to the right)
+    navContent += `<li class="nav-item ms-auto"><a href="logout.html" class="nav-link">Sign Out</a></li>`;
 
-    // Add Logout as the last option
-    const logoutLink = `
-        <li class="nav-item" id="logout-link"><a href="logout.html" class="nav-link">Logout</a></li>
-    `;
-    navbarMenu.insertAdjacentHTML('beforeend', logoutLink);
+    // Insert final HTML content in one operation
+    navbarMenu.innerHTML = navContent;
 });
