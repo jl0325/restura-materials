@@ -121,8 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalPerDay += dayTotal;
                 const gst = (userGst == 1) ? (dayTotal + transportTotal) * 0.1 : 0;
                 totalGst += gst;
-    
-                factureTotal += dayTotal + transportTotal + totalAdditionals + totalGst;
+                factureTotal +=  dayTotal + transportTotal + additionalPrice + gst;
     
                 // Get the day of the week from the date
                 let entryDate = new Date(record.date);
