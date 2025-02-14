@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <li><a class="dropdown-item" href="admin-forms.html">See Your Materials Report</a></li>
         </ul>
     </li>
+    <li class="nav-item"><a href="user-documents.html" class="nav-link">Documents</a></li>
     <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
     `;
     navbarMenu.insertAdjacentHTML('beforeend', defaultLinks);
