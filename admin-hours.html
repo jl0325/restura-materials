@@ -11,7 +11,7 @@
         <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
@@ -124,7 +124,6 @@
 
             <!-- By Project Tab -->
             <div class="tab-pane fade" id="byProject" role="tabpanel" aria-labelledby="byProjectTab">
-                <!-- Add content here for the By Project tab (similar to the By Worker tab) -->
                 <div class="row mb-4">
                     <div class="col-md-3">
                         <label for="companyFilter">Select Company</label>
@@ -147,8 +146,16 @@
                         <button id="filterProjectButton" class="btn btn-primary form-control">Filter</button>
                     </div>
                 </div>
-                
-                <div id="admin-hours-project-container"></div>
+
+                <div id="admin-hours-project-container">
+                    <!-- Content to be printed goes here -->
+                </div>
+                <!-- Print Button with Font Awesome Icon -->
+                <div class="text-end mt-3">
+                    <button id="printProjectButton" class="btn btn-secondary">
+                        <i class="fa fa-print"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -159,4 +166,33 @@
     </footer>
 
 </body>
+
+<style>
+    /* Ensure colors and styles are preserved in print */
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        #admin-hours-project-container, #admin-hours-project-container * {
+            visibility: visible;
+        }
+        #admin-hours-project-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+        /* Force background colors and styles to be printed */
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+    }
+</style>
+
+<script>
+    document.getElementById("printProjectButton").addEventListener("click", function() {
+        window.print();
+    });
+</script>
 </html>

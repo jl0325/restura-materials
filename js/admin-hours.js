@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let tableHTML = `
                 <table class="table table-hover table-bordered align-middle">
                     <thead>
-                        <tr style="background-color: ${companySelected == 'Restaura' ? 'rgba(201, 156, 69, 0.8)' : 'rgba(16, 230, 228, 0.8)'};">
+                        <tr style="background-color: ${companySelected == 'Restaura' ? 'rgba(201, 156, 69, 0.8)' : 'rgba(16, 140, 234, 0.8)'};">
                             <th colSpan="8" class="text-center">${companySelected}/${client} - ${project}</th>
                         </tr>
                         <tr style="background-color: black; color: white;">
