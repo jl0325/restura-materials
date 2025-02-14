@@ -170,24 +170,65 @@
 <style>
     /* Ensure colors and styles are preserved in print */
     @media print {
-        body * {
-            visibility: hidden;
-        }
-        #admin-hours-project-container, #admin-hours-project-container * {
-            visibility: visible;
-        }
-        #admin-hours-project-container {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-        }
-        /* Force background colors and styles to be printed */
-        * {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        }
+    body * {
+        visibility: hidden;
     }
+    #admin-hours-project-container, #admin-hours-project-container * {
+        visibility: visible;
+    }
+    #admin-hours-project-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    /* Force background colors and styles to be printed */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* High-Resolution Printing */
+    @page {
+        size: A4; /* Standard print size, change to Letter or Legal if needed */
+        margin: 10mm; /* Adjust margins for better fit */
+    }
+
+    html, body {
+        image-rendering: -webkit-optimize-contrast; /* Improves image clarity */
+        image-rendering: crisp-edges;
+        image-rendering: high-quality;
+        font-smooth: always;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: "Arial", sans-serif !important; /* Set a clear, readable font */
+        font-size: 12pt; /* Ensure proper font size for printing */
+        font-weight: normal !important;
+        letter-spacing: normal !important;
+        text-rendering: optimizeLegibility;
+    }
+
+    /* Ensure text styles remain consistent */
+    h1, h2, h3, h4, h5, h6, p, span, div {
+        font-style: normal !important;
+        font-variant: normal !important;
+        font-family: inherit !important;
+    }
+
+    /* Improve text and images clarity */
+    img {
+        height: auto;
+        filter: none !important; /* Ensures no unwanted filters in print */
+    }
+
+    /* Prevent table or div breakage */
+    table, div {
+        break-inside: avoid;
+    }
+}
+
+
 </style>
 
 <script>
